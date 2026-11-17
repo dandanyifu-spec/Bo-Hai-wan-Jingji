@@ -552,6 +552,9 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 
 
 
+
+
+
 <!-- bha-honours : 时间轴 -->
 <style id="bha-honours-css">
 .bha-hon-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 18px}
@@ -653,10 +656,12 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 .bha-modal .hint{font-size:10px;color:#7a7563;margin-top:10px;line-height:1.6}
 .bha-modal .body{font-family:"Songti SC","SimSun",serif;font-size:15px;line-height:1.9;white-space:pre-wrap}
 
-/* ===== 井喷 ===== */
-#bha-gush{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:0;transition:opacity .25s}
+/* ===== 轴末端发散（静态） ===== */
+.bha-end{position:absolute;pointer-events:none}
+.bha-end .spark{position:absolute;border-radius:50%}
 
 @media (max-width:720px){
+  .bha-end{display:none!important}
   .bha-scroller{height:auto;max-height:none;overflow:visible}
   .bha-rail{height:auto}
   .bha-axisline{left:20px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,#2f3722,#c5fa39 8%,#c5fa39 60%,#f6c453 92%)}
@@ -747,57 +752,32 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
     return items;
   }
 
-  // ---------- 井喷 ----------
-  var gushCanvas = null, gushCtx = null, gushParts = [], gushRAF = null, gushed = false;
-  function sizeGush(){
-    if (!gushCanvas) return;
-    gushCanvas.width = innerWidth * (devicePixelRatio || 1);
-    gushCanvas.height = innerHeight * (devicePixelRatio || 1);
-    gushCanvas.style.width = innerWidth + 'px';
-    gushCanvas.style.height = innerHeight + 'px';
-    gushCtx.setTransform(devicePixelRatio || 1, 0, 0, devicePixelRatio || 1, 0, 0);
-  }
-  function ensureGush(){
-    if (gushCanvas) return;
-    gushCanvas = document.createElement('canvas'); gushCanvas.id = 'bha-gush';
-    document.body.appendChild(gushCanvas);
-    gushCtx = gushCanvas.getContext('2d');
-    sizeGush(); addEventListener('resize', sizeGush);
-  }
-  function burst(){
-    if (gushed) return; gushed = true;
-    ensureGush();
-    var W = innerWidth, H = innerHeight; gushParts = [];
-    for (var i = 0; i < 460; i++){
-      var a = -Math.PI/2 + (Math.random()-0.5) * 2.4;
-      var sp = 7 + Math.random() * 22;
-      gushParts.push({ x: W*(0.55+Math.random()*0.45), y: H*(0.36+Math.random()*0.22),
-        vx: Math.cos(a)*sp, vy: Math.sin(a)*sp, life: 1, decay: 0.006+Math.random()*0.012,
-        r: 1.5 + Math.random() * (Math.random()>0.85 ? 7 : 3.4),
-        c: Math.random() > 0.25 ? '246,196,83' : '197,250,57' });
+  // ---------- 轴末端静态发散 ----------
+  function buildEnd(x, axisY){
+    var wrap = document.createElement('div');
+    wrap.className = 'bha-end';
+    wrap.style.left = x + 'px';
+    wrap.style.top = axisY + 'px';
+    var seed = 20261116;
+    function rnd(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    var n = 150;
+    for (var i = 0; i < n; i++){
+      var t = Math.pow(rnd(), 1.35);          // 越远越稀
+      var dx = 26 + t * 330;
+      var spread = 4 + t * 54;
+      var dy = (rnd() - 0.5) * 2 * spread * (0.25 + rnd() * 0.75);
+      var r = (1.1 + rnd() * 2.6) * (1 - t * 0.55);
+      var dot = document.createElement('i');
+      dot.className = 'spark';
+      dot.style.left = dx + 'px';
+      dot.style.top = dy + 'px';
+      dot.style.width = r + 'px';
+      dot.style.height = r + 'px';
+      dot.style.background = rnd() > 0.35 ? '#f6c453' : '#c5fa39';
+      dot.style.opacity = (0.9 - t * 0.85).toFixed(2);
+      wrap.appendChild(dot);
     }
-    gushCanvas.style.opacity = '1';
-    var t0 = performance.now();
-    function frame(t){
-      var dt = Math.min(32, t - t0); t0 = t;
-      gushCtx.clearRect(0,0,W,H);
-      var alive = 0;
-      for (var i=0;i<gushParts.length;i++){
-        var p = gushParts[i];
-        if (p.life <= 0) continue;
-        p.vy += 0.16; p.vx *= 0.995; p.vy *= 0.995;
-        p.x += p.vx*dt/16; p.y += p.vy*dt/16; p.life -= p.decay*dt/16;
-        if (p.life <= 0) continue;
-        alive++;
-        gushCtx.beginPath();
-        gushCtx.fillStyle = 'rgba(' + p.c + ',' + Math.max(0,p.life).toFixed(2) + ')';
-        gushCtx.arc(p.x, p.y, p.r*(0.4+p.life*0.8), 0, 6.2832);
-        gushCtx.fill();
-      }
-      if (alive > 0) gushRAF = requestAnimationFrame(frame);
-      else { gushCanvas.style.opacity = '0'; gushRAF = null; gushed = false; }
-    }
-    cancelAnimationFrame(gushRAF); gushRAF = requestAnimationFrame(frame);
+    return wrap;
   }
 
   // ---------- 时间轴 ----------
@@ -820,7 +800,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
     var guard = 0;
     while (iso(cur) <= endStr && guard++ < 400){ days.push(iso(cur)); cur.setDate(cur.getDate()+1); }
 
-    var PADL = 170, GAP = 190, TAIL = 520, HEIGHT = 660, AXIS = 285;
+    var PADL = 170, GAP = 240, TAIL = 620, HEIGHT = 660, AXIS = 285;
     if (!isMobile()){
       rail.style.width = (PADL + days.length * GAP + TAIL) + 'px';
       var axis = document.createElement('div'); axis.className = 'bha-axisline'; rail.appendChild(axis);
@@ -845,23 +825,23 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
       }
       if (byDate[d]){
         var stack = document.createElement('div');
-        stack.className = 'stack ' + (cardsCount % 2 ? 'down' : 'up');
-        byDate[d].forEach(function(it){ stack.appendChild(cardFor(it, d)); cardsCount++; });
+        stack.className = 'stack ' + (i % 2 ? 'down' : 'up');
+        byDate[d].forEach(function(it){ stack.appendChild(cardFor(it, d)); });
         col.appendChild(stack);
       }
       rail.appendChild(col);
     });
 
     if (!isMobile()){
+      var endX = PADL + days.length * GAP + 10;
+      rail.appendChild(buildEnd(endX, AXIS));
       var endTag = document.createElement('div');
-      endTag.style.cssText = 'position:absolute;right:44px;top:150px;text-align:right;white-space:nowrap;pointer-events:none';
-      endTag.innerHTML = '<div style="font-family:\"Arial Black\",Impact,sans-serif;font-style:italic;color:#f6c453;font-size:38px;letter-spacing:-1px;line-height:1">TO BE CONTINUED</div>' +
-        '<div style="font-family:\"Songti SC\",\"SimSun\",serif;font-size:15px;letter-spacing:8px;color:#c9a94e;margin-top:10px">未完待续</div>';
+      endTag.style.cssText = 'position:absolute;left:' + (endX + 46) + 'px;top:' + (AXIS - 96) + 'px;white-space:nowrap;pointer-events:none';
+      endTag.innerHTML = '<div style="font-family:Arial Black,Impact,sans-serif;font-style:italic;color:#f6c453;font-size:36px;letter-spacing:-1px;line-height:1">TO BE CONTINUED</div>'
+        + '<div style="font-family:Songti SC,SimSun,serif;font-size:14px;letter-spacing:8px;color:#c9a94e;margin-top:8px">未完待续</div>';
       rail.appendChild(endTag);
-      scroller.addEventListener('scroll', function(){
-        if (scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 30) burst();
-      }, { passive: true });
     }
+
     return stage;
   }
 
@@ -1036,7 +1016,6 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
     }
   }
 
-  ensureGush();
   setInterval(render, 500);
   render();
 })();
