@@ -543,6 +543,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 
 
 
+
 <!-- bha-honours : 荣誉室 · 轨道时间轴 -->
 <style id="bha-honours-css">
 .bha-hon-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 18px}
@@ -634,6 +635,10 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 .bha-edit .hint{font-size:10px;color:#7a7563;margin-top:10px;line-height:1.6}
 
 @media (max-width:720px){
+  #bha-mail{left:12px;bottom:16px;padding:10px;gap:0;font-size:0}
+  #bha-mail .badge{position:absolute;top:-8px;right:-8px;font-size:10px}
+  #bha-mail .ico{width:20px;height:14px}
+  .bha-box{left:12px;right:12px;width:auto;bottom:70px}
   .bha-tl-wrap{height:auto;max-height:none;overflow:visible;border:0;background:none;mask-image:none;-webkit-mask-image:none;padding-left:2px}
   .bha-rail{height:auto}
   .bha-axis{left:20px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,#2f3722,#c5fa39 10%,#c5fa39 60%,#f6c453 82%,#3a2f10)}
@@ -708,7 +713,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
       var axis = document.createElement('div'); axis.className = 'bha-axis'; rail.appendChild(axis);
       var head = document.createElement('div');
       head.style.cssText = 'position:absolute;left:34px;top:28px;right:0;display:flex;align-items:baseline;gap:14px';
-      head.innerHTML = '<span style="font-family:"Arial Black",Arial,sans-serif;font-style:italic;font-size:15px;color:#e8ead9;letter-spacing:-.5px">MATCH ARCHIVE</span>' +
+      head.innerHTML = '<span style="font-family:"Arial Black",Arial,sans-serif;font-style:italic;font-size:15px;color:#e8ead9;letter-spacing:-.5px">渤海湾竞技 · 编年</span>' +
         '<span style="flex:1;height:1px;background:linear-gradient(90deg,#4a5438,transparent)"></span>' +
         '<span style="font-family:Consolas,monospace;font-size:10px;letter-spacing:2px;color:#7f8b6c;padding-right:34px">2026 秋 · 从 10.29 开始</span>';
       outer.appendChild(head);
