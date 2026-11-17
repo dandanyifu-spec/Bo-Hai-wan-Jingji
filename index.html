@@ -544,7 +544,13 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 
 
 
-<!-- bha-honours : 荣誉室 · 轨道时间轴 -->
+
+
+
+
+
+
+<!-- bha-honours : 时间轴 -->
 <style id="bha-honours-css">
 .bha-hon-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 18px}
 .bha-hon-group{display:flex;border:2px solid #6a705c}
@@ -555,58 +561,67 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 .bha-hon-empty{padding:60px 20px;text-align:center;color:#a9b394}
 .bha-hon-empty b{display:block;font-family:"Arial Black",Arial,sans-serif;font-style:italic;font-size:20px;color:#e8e9d8;margin-bottom:8px}
 
-/* ---------- 轨道 ---------- */
-.bha-tl-outer{position:relative;border:2px solid #576047;height:520px;overflow:hidden;
-  background:radial-gradient(120% 90% at 50% 0%,#1b2016 0%,#14170f 60%,#10130c 100%);
-  box-shadow:inset 0 0 0 1px #0b0d08, inset 0 60px 90px -60px #2a3320}
-.bha-tl-wrap{position:relative;height:100%;overflow-x:auto;overflow-y:hidden}
-.bha-tl-wrap::-webkit-scrollbar{height:9px}
-.bha-tl-wrap::-webkit-scrollbar-track{background:#10130c}
-.bha-tl-wrap::-webkit-scrollbar-thumb{background:#647051}
+/* ===== 通屏轴 ===== */
+.bha-stage{position:relative;width:100vw;margin-left:calc(50% - 50vw);background:
+  radial-gradient(90% 120% at 30% 0%,#1c2117 0%,#12150e 55%,#0d100a 100%);
+  border-top:2px solid #3d4630;border-bottom:2px solid #3d4630;overflow:hidden}
+.bha-stage .bha-scroller{overflow-x:auto;overflow-y:hidden;height:460px;scrollbar-width:thin;scrollbar-color:#5d6a49 #0d100a}
+.bha-stage .bha-scroller::-webkit-scrollbar{height:8px}
+.bha-stage .bha-scroller::-webkit-scrollbar-thumb{background:#5d6a49}
 .bha-rail{position:relative;height:100%}
-.bha-axis{position:absolute;left:0;right:0;top:170px;height:2px;
-  background:linear-gradient(90deg,#2f3722,#c5fa39 8%,#c5fa39 70%,#f6c453 88%,#3a2f10)}
-.bha-day{position:absolute;top:0;bottom:0;width:1px}
-.bha-day .tick{position:absolute;left:0;top:161px;width:1px;height:18px;background:#8a9576}
-.bha-day .node{position:absolute;left:-4px;top:166px;width:9px;height:9px;background:#c5fa39;border:2px solid #0c0f09;transform:rotate(45deg);cursor:pointer;transition:background .15s}
-.bha-day .node:hover,.bha-day .node:focus-visible{background:#ff6841;outline:none}
-.bha-day .dlabel{position:absolute;left:0;top:188px;transform:translateX(-50%);white-space:nowrap;
-  font-family:Consolas,monospace;font-size:10px;color:#93a07e;letter-spacing:.6px;cursor:pointer;padding:2px 4px}
-.bha-day .dlabel b{color:#e8ead9;font-size:11px;letter-spacing:1px}
-.bha-day .dlabel:hover b{color:#c5fa39}
-.bha-cards{position:absolute;left:10px;width:268px}
-.bha-cards.down{top:214px}
-.bha-cards.up{display:none}
+.bha-axisline{position:absolute;left:0;right:0;top:150px;height:2px;
+  background:linear-gradient(90deg,#2f3722,#c5fa39 4%,#c5fa39 78%,#f6c453 92%,#f6c453)}
+.bha-tick{position:absolute;top:150px;width:1px;height:10px;background:#4c5840}
+.bha-tick.major{height:16px;top:142px;background:#7e8c68}
+.bha-lab{position:absolute;top:168px;transform:translateX(-50%);white-space:nowrap;font-family:Consolas,monospace;
+  font-size:9px;color:#6f7d5c;letter-spacing:.5px;cursor:pointer;padding:2px 3px}
+.bha-lab b{color:#cfd8bd;font-size:10px}
+.bha-lab:hover b{color:#c5fa39}
+.bha-node{position:absolute;top:145px;width:11px;height:11px;background:#c5fa39;border:2px solid #0c0f09;
+  transform:translateX(-50%) rotate(45deg);cursor:pointer}
+.bha-node:hover{background:#ff6841}
+.bha-col{position:absolute;top:0;bottom:0;width:1px}
+.bha-col .stack{position:absolute;top:206px;left:0;width:250px;margin-left:-125px}
 
-/* ---------- 报纸卡片 ---------- */
-.bha-paper{background:linear-gradient(180deg,#f7f4ea,#efece0);color:#14181a;border:1px solid #14181a;padding:13px 13px 16px;margin-bottom:12px;
-  box-shadow:3px 3px 0 #0006;font-family:"Songti SC","SimSun",serif;position:relative}
-.bha-paper:before{content:"";position:absolute;left:0;right:0;top:27px;height:3px;border-top:1px solid #14181a;border-bottom:1px solid #14181a}
-.bha-paper:after{content:"";position:absolute;left:0;right:0;bottom:7px;height:1px;background:#c9c3ae;pointer-events:none}
-.bha-paper .p-kicker{font-family:Consolas,monospace;font-size:8px;letter-spacing:1.5px;color:#7a4f1f}
-.bha-paper h4{font-size:17px;line-height:1.32;margin:17px 0 6px;font-weight:700;letter-spacing:.3px}
-.bha-paper p{font-size:10.5px;line-height:1.75;margin:0;color:#3f4438;font-family:"Microsoft YaHei",sans-serif}
-.bha-paper .p-local{position:absolute;right:7px;bottom:8px;font-size:7px;color:#b0463b;font-family:Consolas,monospace;letter-spacing:1.4px;border:1px solid #b0463b;padding:0 3px;transform:rotate(-4deg)}
-.bha-paper.a1{transform:rotate(-.7deg)}
-.bha-paper.a2{transform:rotate(.6deg)}
+/* ===== 原版比赛卡 ===== */
+.bha-match{display:flex;align-items:center;gap:12px;background:#101208;border:2px solid #dfe0cf;padding:10px 12px;
+  box-shadow:4px 4px #2b3318;text-align:left;font-family:inherit;color:inherit;margin-bottom:12px;cursor:default}
+.bha-match .score{display:flex;align-items:baseline;gap:5px;font-family:"Arial Black",Impact,sans-serif;font-style:italic;
+  font-size:26px;color:#c5fa39;line-height:1;flex:none}
+.bha-match .score i{font-style:normal;font-size:15px;color:#7f8a65}
+.bha-match .m-meta{min-width:0}
+.bha-match .m-meta b{display:block;font-size:12px;color:#f0f0df;line-height:1.35}
+.bha-match .m-meta span{display:block;font-size:9px;color:#a9b394;margin-top:3px;font-family:monospace;letter-spacing:.5px}
+.bha-match .tag{font-family:monospace;font-size:8px;color:#111;background:#c5fa39;padding:2px 5px;margin-left:auto;flex:none}
 
-/* ---------- 结尾发散 ---------- */
-.bha-future{position:absolute;top:170px;pointer-events:none}
-.bha-future .dot{position:absolute;display:block;border-radius:50%;width:2px;height:2px;background:#f6c453}
-.bha-future .word{position:absolute;left:26px;top:-40px;white-space:nowrap;font-family:Consolas,monospace;
-  font-size:11px;letter-spacing:4px;color:#f6c453;opacity:.9}
+/* ===== 原版奖项卡 ===== */
+.bha-award{display:flex;align-items:center;gap:10px;background:#1d2319;border:2px solid #6f7a58;padding:9px 11px;
+  box-shadow:4px 4px #0a0b08;text-align:left;font-family:inherit;color:inherit;margin-bottom:12px;cursor:pointer;width:100%;box-sizing:border-box}
+.bha-award:hover{border-color:#c5fa39}
+.bha-award .star{width:34px;height:34px;flex:none;display:grid;place-items:center;background:#c5fa39;color:#111;
+  font-family:"Arial Black",Impact,sans-serif;font-style:italic;font-size:17px}
+.bha-award .meta b{display:block;font-size:13px;color:#f0f0df;line-height:1.3}
+.bha-award .meta span{display:block;font-size:9px;color:#a9b394;margin-top:3px;font-family:monospace;letter-spacing:.5px}
 
-/* ---------- 信箱 ---------- */
-#bha-mail{position:fixed;left:18px;bottom:74px;z-index:88;display:flex;align-items:center;gap:9px;
+/* ===== 报纸新闻卡 ===== */
+.bha-news{background:#f4f1e6;color:#14181a;border:1px solid #14181a;padding:10px 11px 12px;margin-bottom:12px;
+  box-shadow:3px 3px #0006;font-family:"Songti SC","SimSun",serif;text-align:left;width:100%;box-sizing:border-box;cursor:pointer}
+.bha-news .n-top{display:flex;justify-content:space-between;align-items:center;font-family:Consolas,monospace;font-size:8px;letter-spacing:1.5px;color:#7a4f1f}
+.bha-news .n-top i{font-style:normal;background:#14181a;color:#f4f1e6;padding:1px 5px;letter-spacing:1.5px}
+.bha-news h4{font-size:15px;line-height:1.32;margin:9px 0 3px;font-weight:700}
+.bha-news p{font-size:10px;line-height:1.6;margin:0;color:#454a3e;font-family:"Microsoft YaHei",sans-serif;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bha-news:after{content:"点开读全文";display:block;margin-top:6px;font-size:8px;letter-spacing:1px;color:#9a9482;font-family:Consolas,monospace}
+
+/* ===== 信箱（全站） ===== */
+#bha-mail{position:fixed;left:18px;bottom:18px;z-index:96;display:flex;align-items:center;gap:9px;
   background:#111210;border:2px solid #f6c453;color:#f6c453;padding:9px 13px;cursor:pointer;
   box-shadow:4px 4px #0007;font-family:Consolas,monospace;font-size:11px;letter-spacing:1.2px}
 #bha-mail:hover{transform:translate(-2px,-2px);box-shadow:6px 6px #f6c453}
 #bha-mail .ico{width:16px;height:11px;border:1.5px solid #f6c453;position:relative;flex:none}
 #bha-mail .ico:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 45%,#f6c453 46%,#f6c453 54%,transparent 55%)}
 #bha-mail .badge{background:#f6c453;color:#111;padding:1px 5px;font-size:10px}
-
-/* ---------- 信箱面板 ---------- */
-.bha-box{position:fixed;left:18px;bottom:124px;z-index:89;width:min(430px,88vw);max-height:62vh;overflow:auto;
+.bha-box{position:fixed;left:18px;bottom:70px;z-index:97;width:min(430px,88vw);max-height:62vh;overflow:auto;
   background:#f4f1e6;color:#14181a;border:2px solid #14181a;box-shadow:6px 6px #0008;display:none}
 .bha-box.on{display:block}
 .bha-box header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:2px solid #14181a;
@@ -615,40 +630,46 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 .bha-box .tools{display:flex;gap:8px;padding:9px 12px;border-bottom:1px solid #cfc9b4;background:#efecdd}
 .bha-box .tools button{flex:1;padding:6px;border:1px solid #14181a;background:#fffdf5;font:11px "Microsoft YaHei",sans-serif;cursor:pointer}
 .bha-box .tools button.primary{background:#c5fa39}
-.bha-box .item{padding:10px 12px;border-bottom:1px solid #cfc9b4;font-family:"Microsoft YaHei",sans-serif}
-.bha-box .item b{font-family:"Songti SC","SimSun",serif;font-size:14px}
+.bha-box .item{padding:10px 12px;border-bottom:1px solid #cfc9b4;font-family:"Microsoft YaHei",sans-serif;cursor:pointer}
+.bha-box .item b{font-family:"Songti SC","SimSun",serif;font-size:13px}
 .bha-box .item span{display:block;font-size:10px;color:#6d6a5a;font-family:Consolas,monospace;margin-top:3px}
-.bha-box .item p{font-size:11px;line-height:1.6;margin:5px 0 0;color:#3d4238}
 .bha-box .empty{padding:30px 14px;text-align:center;color:#7d7a68;font-size:12px}
 
-/* ---------- 编辑弹窗 ---------- */
-.bha-edit{position:fixed;inset:0;z-index:120;background:#0a0d08cc;backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
-.bha-edit .card{background:#f4f1e6;color:#14181a;border:2px solid #14181a;box-shadow:8px 8px #c5fa39;width:min(460px,92vw);padding:20px}
-.bha-edit h3{margin:0 0 4px;font-family:"Songti SC","SimSun",serif;font-size:20px}
-.bha-edit .date{font-family:Consolas,monospace;font-size:11px;color:#6d6a5a;margin-bottom:12px;letter-spacing:1px}
-.bha-edit label{display:block;font-size:11px;color:#5a5747;margin:10px 0 4px;font-family:Consolas,monospace;letter-spacing:1px}
-.bha-edit input,.bha-edit textarea{width:100%;box-sizing:border-box;background:#fffdf5;border:1px solid #14181a;padding:8px 9px;font-size:13px;font-family:"Microsoft YaHei",sans-serif;color:#14181a}
-.bha-edit textarea{min-height:74px;resize:vertical}
-.bha-edit .row{display:flex;gap:8px;margin-top:16px}
-.bha-edit button{flex:1;padding:9px;border:2px solid #14181a;background:#14181a;color:#c5fa39;font-weight:900;font-size:12px;cursor:pointer;font-family:inherit}
-.bha-edit button.ghost{background:#f4f1e6;color:#14181a}
-.bha-edit .hint{font-size:10px;color:#7a7563;margin-top:10px;line-height:1.6}
+/* ===== 编辑/阅读 ===== */
+.bha-modal{position:fixed;inset:0;z-index:120;background:#0a0d08cc;backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
+.bha-modal .card{background:#f4f1e6;color:#14181a;border:2px solid #14181a;box-shadow:8px 8px #c5fa39;width:min(480px,92vw);padding:20px;max-height:88vh;overflow:auto}
+.bha-modal h3{margin:0 0 4px;font-family:"Songti SC","SimSun",serif;font-size:20px}
+.bha-modal .date{font-family:Consolas,monospace;font-size:11px;color:#6d6a5a;margin-bottom:12px;letter-spacing:1px}
+.bha-modal label{display:block;font-size:11px;color:#5a5747;margin:10px 0 4px;font-family:Consolas,monospace;letter-spacing:1px}
+.bha-modal input,.bha-modal textarea{width:100%;box-sizing:border-box;background:#fffdf5;border:1px solid #14181a;padding:8px;font-size:13px;font-family:"Microsoft YaHei",sans-serif;color:#14181a}
+.bha-modal textarea{min-height:90px;resize:vertical}
+.bha-modal .row{display:flex;gap:8px;margin-top:16px}
+.bha-modal button{flex:1;padding:9px;border:2px solid #14181a;background:#14181a;color:#c5fa39;font-weight:900;font-size:12px;cursor:pointer;font-family:inherit}
+.bha-modal button.ghost{background:#f4f1e6;color:#14181a}
+.bha-modal .hint{font-size:10px;color:#7a7563;margin-top:10px;line-height:1.6}
+.bha-modal .body{font-family:"Songti SC","SimSun",serif;font-size:15px;line-height:1.9;white-space:pre-wrap}
+
+/* ===== 井喷 ===== */
+#bha-gush{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:0;transition:opacity .25s}
+.bha-gush-tip{position:absolute;right:22px;top:16px;font-family:Consolas,monospace;font-size:11px;letter-spacing:6px;
+  color:#f6c453;opacity:.75;pointer-events:none}
 
 @media (max-width:720px){
-  #bha-mail{left:12px;bottom:16px;padding:10px;gap:0;font-size:0}
+  .bha-stage .bha-scroller{height:auto;max-height:none;overflow:visible}
+  .bha-stage{background:#10130c}
+  .bha-axisline{left:20px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,#2f3722,#c5fa39 8%,#c5fa39 60%,#f6c453 92%)}
+  .bha-rail{height:auto}
+  .bha-col{position:relative!important;left:0!important;width:auto;padding:0 0 6px 40px}
+  .bha-tick{left:20px;top:16px;width:12px;height:1px}
+  .bha-tick.major{top:16px;height:1px}
+  .bha-lab{position:static;transform:none;margin:4px 0 8px}
+  .bha-node{left:16px;top:11px}
+  .bha-col .stack{position:static;width:auto;margin:0}
+  #bha-mail{left:12px;bottom:14px;padding:10px;gap:0;font-size:0}
   #bha-mail .badge{position:absolute;top:-8px;right:-8px;font-size:10px}
   #bha-mail .ico{width:20px;height:14px}
-  .bha-box{left:12px;right:12px;width:auto;bottom:70px}
-  .bha-tl-wrap{height:auto;max-height:none;overflow:visible;border:0;background:none;mask-image:none;-webkit-mask-image:none;padding-left:2px}
-  .bha-rail{height:auto}
-  .bha-axis{left:20px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,#2f3722,#c5fa39 10%,#c5fa39 60%,#f6c453 82%,#3a2f10)}
-  .bha-day{position:relative!important;left:0!important;width:auto;height:auto;padding:0 0 18px 42px}
-  .bha-day .tick{left:20px;top:12px;width:12px;height:1px}
-  .bha-day .node{left:16px;top:8px}
-  .bha-day .dlabel{position:static;transform:none;margin:0 0 8px;padding:0}
-  .bha-cards{position:static;width:auto;margin:0}
-  .bha-cards.up,.bha-cards.down{top:auto;bottom:auto}
-  .bha-future{position:relative;top:auto;height:90px;margin-left:20px}
+  .bha-box{left:12px;right:12px;width:auto;bottom:64px}
+  .bha-gush-tip{display:none}
 }
 </style>
 <script id="bha-honours-data" type="application/json">[{"date":"2026-11-09","week":1,"awards":[{"name":"金靴","en":"GOLDEN BOOT","player":"张博宇","num":"21","team":"三班"}]},{"date":"2026-11-16","week":2,"awards":[{"name":"金靴","en":"GOLDEN BOOT","player":"张博宇","num":"21","team":"三班"},{"name":"助攻王","en":"ASSIST KING","player":"王鹏然","num":"1","team":"三班"}]}]</script>
@@ -659,13 +680,21 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
   var S = { tab: 'ranks', cls: '三班' };
   var LSKEY = 'bha-local-events-v1';
   var WD = ['周日','周一','周二','周三','周四','周五','周六'];
-  var AWARD_WORDS = { '金靴': 1, '助攻王': 1 };
+  var START = new Date('2026-10-29T10:45:00+08:00');
+  var END_WEEK_ROLL = true;
 
   function loadData(){ try { return JSON.parse(document.getElementById('club-initial-data').textContent); } catch(e){ return { players: [], matches: [] }; } }
   function localEvents(){ try { return JSON.parse(localStorage.getItem(LSKEY) || '[]'); } catch(e){ return []; } }
   function saveLocal(l){ try { localStorage.setItem(LSKEY, JSON.stringify(l)); } catch(e){} }
   function dayLabel(d){ return WD[new Date(d + 'T00:00:00+08:00').getDay()]; }
   function isMobile(){ return window.matchMedia('(max-width:720px)').matches; }
+  function iso(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  function lastSunday(){ // 最近的周日（含今天）
+    var now = new Date();
+    var d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    d.setDate(d.getDate() - d.getDay());
+    return d;
+  }
 
   function collect(){
     var items = [];
@@ -673,8 +702,8 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
       JSON.parse(document.getElementById('bha-honours-data').textContent).forEach(function(w){
         (w.awards || []).forEach(function(a){
           if (a.team !== S.cls) return;
-          items.push({ date: w.date, kind: 'AWARD', award: true, title: a.name + ' · ' + a.player,
-            body: '第 ' + (w.week || '') + ' 周 · #' + a.num + ' · ' + a.en, local: false });
+          items.push({ date: w.date, kind: 'AWARD', title: a.name + ' · ' + a.player, player: a.player,
+            body: '第 ' + (w.week || '') + ' 周 · #' + a.num + ' · ' + a.en });
         });
       });
     } catch(e){}
@@ -682,112 +711,238 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
     (data.matches || []).forEach(function(m){
       var t = m.type || '德比';
       if (S.cls === '三班' ? (t !== '崔强杯' && t !== '德比') : t !== '二班') return;
-      items.push({ date: m.date, kind: 'MATCH', award: false,
-        title: (m.teamA || 'A队') + ' ' + ((m.a || 0) + (m.bonusA || 0)) + ':' + ((m.b || 0) + (m.bonusB || 0)) + ' ' + (m.teamB || 'B队'),
-        body: t + ' · ' + (m.court || '小场') + (m.note ? ' · ' + m.note : ''), local: false });
+      items.push({ date: m.date, kind: 'MATCH', title: (m.teamA || 'A队') + ' vs ' + (m.teamB || 'B队'),
+        score: [(m.a || 0) + (m.bonusA || 0), (m.b || 0) + (m.bonusB || 0)], body: t + ' · ' + (m.court || '小场') + (m.note ? ' · ' + m.note : '') });
     });
     localEvents().forEach(function(e){
       if (e.cls && e.cls !== S.cls) return;
-      items.push({ date: e.date, kind: 'NEWS', award: false, title: e.title, body: e.body || '', local: true });
+      items.push({ date: e.date, kind: 'NEWS', title: e.title, body: e.body || '', local: true });
     });
     items.sort(function(a, b){ return a.date < b.date ? -1 : 1; });
     return items;
   }
 
-  function buildTimeline(){
-    var outer = document.createElement('div'); outer.className = 'bha-tl-outer';
-    var wrap = document.createElement('div'); wrap.className = 'bha-tl-wrap';
-    var rail = document.createElement('div'); rail.className = 'bha-rail';
-    wrap.appendChild(rail); outer.appendChild(wrap);
-    var items = collect();
-    if (!items.length){
-      rail.innerHTML = '<div class="bha-hon-empty"><b>NOTHING HERE YET.</b>还没有任何记录。</div>';
-      return outer || wrap;
-    }
-    var days = {};
-    items.forEach(function(it){ (days[it.date] = days[it.date] || []).push(it); });
-    var dates = Object.keys(days).sort();
-    var GAP = 300, PADL = 210, PADR = 620;
-    if (!isMobile()){
-      rail.style.width = (PADL + (dates.length - 1) * GAP + PADR) + 'px';
-      var axis = document.createElement('div'); axis.className = 'bha-axis'; rail.appendChild(axis);
-      var head = document.createElement('div');
-      head.style.cssText = 'position:absolute;left:34px;top:28px;right:0;display:flex;align-items:baseline;gap:14px';
-      head.innerHTML = '<span style="font-family:"Arial Black",Arial,sans-serif;font-style:italic;font-size:15px;color:#e8ead9;letter-spacing:-.5px">渤海湾竞技 · 编年</span>' +
-        '<span style="flex:1;height:1px;background:linear-gradient(90deg,#4a5438,transparent)"></span>' +
-        '<span style="font-family:Consolas,monospace;font-size:10px;letter-spacing:2px;color:#7f8b6c;padding-right:34px">2026 秋 · 从 10.29 开始</span>';
-      outer.appendChild(head);
-      var cap = document.createElement('div');
-      cap.style.cssText = 'position:absolute;left:62px;top:170px;display:flex;flex-direction:column;align-items:center;transform:translateY(-1px)';
-      cap.innerHTML = '<div style="width:9px;height:9px;border:2px solid #c5fa39;background:#14170f;transform:rotate(45deg);margin-bottom:10px"></div>' +
-        '<div style="position:absolute;top:-30px;left:6px;white-space:nowrap;font-family:Consolas,monospace;font-size:10px;letter-spacing:1px;color:#8e9a78">起点 · 10.29 10:45</div>';
-      rail.appendChild(cap);
-    }
-    dates.forEach(function(d, i){
-      var col = document.createElement('div');
-      col.className = 'bha-day';
-      if (!isMobile()) col.style.left = (PADL + i * GAP) + 'px';
-      var tick = document.createElement('div'); tick.className = 'tick';
-      var node = document.createElement('button');
-      node.type = 'button'; node.className = 'node';
-      node.setAttribute('aria-label', '给 ' + d + ' 添加一件事');
-      node.addEventListener('click', function(){ openEditor(d); });
-      var lab = document.createElement('div'); lab.className = 'dlabel';
-      lab.innerHTML = '<b>' + d.slice(5).replace('-', '.') + '</b> ' + dayLabel(d) + ' <span style="color:#c5fa39">+</span>';
-      lab.addEventListener('click', function(){ openEditor(d); });
-      col.appendChild(tick); col.appendChild(node); col.appendChild(lab);
-
-      var hasAward = days[d].some(function(x){ return x.award; });
-      var cards = document.createElement('div');
-      cards.className = 'bha-cards down';
-      days[d].forEach(function(it, k){
-        var p = document.createElement('article');
-        p.className = 'bha-paper ' + (k % 2 ? 'a2' : (k ? 'a1' : ''));
-        p.innerHTML = '<div class="p-kicker">' + it.kind + ' · ' + d.replace(/-/g, '.') + '</div>' +
-          '<h4>' + it.title + '</h4><p>' + (it.body || '') + '</p>' +
-          (it.local ? '<span class="p-local">本人所记</span>' : '');
-        cards.appendChild(p);
+  // ---------- 井喷 ----------
+  var gushCanvas = null, gushCtx = null, gushParts = [], gushRAF = null, gushed = false;
+  function ensureGush(){
+    if (gushCanvas) return;
+    gushCanvas = document.createElement('canvas');
+    gushCanvas.id = 'bha-gush';
+    document.body.appendChild(gushCanvas);
+    gushCtx = gushCanvas.getContext('2d');
+    sizeGush();
+    window.addEventListener('resize', sizeGush);
+  }
+  function sizeGush(){
+    if (!gushCanvas) return;
+    gushCanvas.width = window.innerWidth * (window.devicePixelRatio || 1);
+    gushCanvas.height = window.innerHeight * (window.devicePixelRatio || 1);
+    gushCanvas.style.width = window.innerWidth + 'px';
+    gushCanvas.style.height = window.innerHeight + 'px';
+    gushCtx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+  }
+  function burst(){
+    if (gushed) return; gushed = true;
+    ensureGush();
+    var W = window.innerWidth, H = window.innerHeight;
+    gushParts = [];
+    for (var i = 0; i < 460; i++){
+      var a = -Math.PI / 2 + (Math.random() - 0.5) * 2.4;
+      var sp = 7 + Math.random() * 22;
+      gushParts.push({
+        x: W * (0.55 + Math.random() * 0.45), y: H * (0.36 + Math.random() * 0.22),
+        vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+        life: 1, decay: 0.006 + Math.random() * 0.012,
+        r: 1.5 + Math.random() * (Math.random() > 0.85 ? 7 : 3.4),
+        c: Math.random() > 0.25 ? '246,196,83' : '197,250,57'
       });
-      col.appendChild(cards);
+    }
+    gushCanvas.style.opacity = '1';
+    var t0 = performance.now();
+    function frame(t){
+      var dt = Math.min(32, t - t0); t0 = t;
+      gushCtx.clearRect(0, 0, W, H);
+      var alive = 0;
+      for (var i = 0; i < gushParts.length; i++){
+        var p = gushParts[i];
+        if (p.life <= 0) continue;
+        p.vy += 0.16; p.vx *= 0.995; p.vy *= 0.995;
+        p.x += p.vx * dt / 16; p.y += p.vy * dt / 16;
+        p.life -= p.decay * dt / 16;
+        if (p.life <= 0) continue;
+        alive++;
+        gushCtx.beginPath();
+        gushCtx.fillStyle = 'rgba(' + p.c + ',' + Math.max(0, p.life).toFixed(2) + ')';
+        gushCtx.arc(p.x, p.y, p.r * (0.4 + p.life * 0.8), 0, 6.2832);
+        gushCtx.fill();
+      }
+      if (alive > 0) gushRAF = requestAnimationFrame(frame);
+      else { gushCanvas.style.opacity = '0'; gushRAF = null; gushed = false; }
+    }
+    cancelAnimationFrame(gushRAF);
+    gushRAF = requestAnimationFrame(frame);
+  }
+
+  // ---------- 构建 ----------
+  function buildTimeline(){
+    var stage = document.createElement('div'); stage.className = 'bha-stage';
+    var scroller = document.createElement('div'); scroller.className = 'bha-scroller';
+    var rail = document.createElement('div'); rail.className = 'bha-rail';
+    scroller.appendChild(rail); stage.appendChild(scroller);
+
+
+    var items = collect();
+    var byDate = {};
+    items.forEach(function(it){ (byDate[it.date] = byDate[it.date] || []).push(it); });
+
+    // 逐日枚举：10.29 → 下一个周日（若已有更远数据则延到那天）
+    var end = lastSunday();
+    var maxDate = items.reduce(function(m, it){ return it.date > m ? it.date : m; }, iso(lastSunday()));
+    var endStr = maxDate > iso(end) ? maxDate : iso(end);
+    var days = [];
+    var cur = new Date(START.getFullYear(), START.getMonth(), START.getDate());
+    var guard = 0;
+    while (iso(cur) <= endStr && guard++ < 400){
+      days.push(iso(cur));
+      cur.setDate(cur.getDate() + 1);
+    }
+
+    var PADL = 150, W_CARD = 300, W_EMPTY = 62, W_TAIL = 460;
+    var xs = [], cursor = PADL;
+    days.forEach(function(d){
+      xs.push(cursor);
+      var n = (byDate[d] || []).length;
+      cursor += n ? W_CARD : W_EMPTY;
+    });
+    var width = cursor + W_TAIL;
+    if (!isMobile()){
+      rail.style.width = width + 'px';
+      var axis = document.createElement('div'); axis.className = 'bha-axisline'; rail.appendChild(axis);
+    }
+    days.forEach(function(d, i){
+      var col = document.createElement('div'); col.className = 'bha-col';
+      if (!isMobile()) col.style.left = xs[i] + 'px';
+      var isSunday = new Date(d + 'T00:00:00').getDay() === 0;
+      var tick = document.createElement('div'); tick.className = 'bha-tick' + (isSunday ? ' major' : '');
+      col.appendChild(tick);
+      var lab = document.createElement('div'); lab.className = 'bha-lab';
+      lab.innerHTML = '<b>' + d.slice(5).replace('-', '.') + '</b> ' + (isSunday ? '周日' : '');
+      lab.addEventListener('click', function(){ openEditor(d); });
+      col.appendChild(lab);
+      if (byDate[d] || isSunday){
+        var node = document.createElement('button'); node.type = 'button'; node.className = 'bha-node';
+        node.setAttribute('aria-label', d + ' 添加记录');
+        node.addEventListener('click', function(){ openEditor(d); });
+        col.appendChild(node);
+      }
+      if (byDate[d]){
+        var stack = document.createElement('div'); stack.className = 'stack';
+        byDate[d].forEach(function(it){ stack.appendChild(cardFor(it, d)); });
+        col.appendChild(stack);
+      }
       rail.appendChild(col);
     });
 
-    // 结尾：金色发散
-    var fut = document.createElement('div'); fut.className = 'bha-future';
-    fut.style.left = (isMobile() ? 0 : (PADL + (dates.length - 1) * GAP + 330)) + 'px';
-    var word = document.createElement('div'); word.className = 'word'; word.textContent = '未完待续 ——';
-    fut.appendChild(word);
-    var seed = 11;
-    function rnd(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
-    var beam = document.createElement('div');
-    beam.style.cssText = 'position:absolute;left:0;top:-1px;width:230px;height:2px;background:linear-gradient(90deg,#c5fa39,transparent)';
-    fut.appendChild(beam);
-    for (var k = 0; k < 150; k++){
-      var t = rnd();
-      var dot = document.createElement('i'); dot.className = 'dot';
-      var r = (1.6 + rnd() * 4.2) * (1 - t * 0.55);
-      dot.style.left = (t * 240) + 'px';
-      dot.style.top = (Math.sin(t * 2.6) * 46 * (0.45 + rnd()) + (rnd() - 0.5) * 18) + 'px';
-      dot.style.width = r + 'px'; dot.style.height = r + 'px';
-      dot.style.opacity = (0.95 - t * 0.9).toFixed(2);
-      dot.style.background = rnd() > 0.3 ? '#f6c453' : '#c5fa39';
-      fut.appendChild(dot);
+    if (!isMobile()){
+      var endTag = document.createElement('div');
+      endTag.style.cssText = 'position:absolute;left:' + width + 'px;top:210px;transform:translateX(-100%);text-align:right;padding-right:46px;pointer-events:none;white-space:nowrap';
+      endTag.innerHTML = '<div style="font-family:"Arial Black",Impact,sans-serif;font-style:italic;color:#f6c453;font-size:38px;letter-spacing:-1px;line-height:1">TO BE CONTINUED</div>' +
+        '<div style="font-family:"Songti SC","SimSun",serif;font-size:15px;letter-spacing:8px;color:#c9a94e;margin-top:10px">未完待续</div>';
+      rail.appendChild(endTag);
     }
-    rail.appendChild(fut);
-    return outer;
+
+    // 触发井喷：滚到末端
+    scroller.addEventListener('scroll', function(){
+      if (scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 30) burst();
+    }, { passive: true });
+    return stage;
   }
 
+  function cardFor(it, date){
+    var el;
+    if (it.kind === 'MATCH'){
+      el = document.createElement('div'); el.className = 'bha-match';
+      el.innerHTML = '<div class="score">' + it.score[0] + '<i>:</i>' + it.score[1] + '</div>' +
+        '<div class="m-meta"><b>' + it.title + '</b><span>' + it.body + '</span></div>' +
+        '<div class="tag">MATCH</div>';
+      return el;
+    }
+    if (it.kind === 'AWARD'){
+      el = document.createElement('button'); el.type = 'button'; el.className = 'bha-award';
+      el.innerHTML = '<div class="star">★</div><div class="meta"><b>' + it.title + '</b><span>' + it.body + '</span></div>';
+      el.addEventListener('click', function(){ openReader({ title: it.title, body: it.body, date: date, kind: 'AWARD' }); });
+      return el;
+    }
+    el = document.createElement('button'); el.type = 'button'; el.className = 'bha-news';
+    el.innerHTML = '<div class="n-top"><span>' + date.replace(/-/g, '.') + '</span><i>NEWS</i></div>' +
+      '<h4>' + it.title + '</h4><p>' + (it.body || '（没有正文，点开补一句）') + '</p>';
+    el.addEventListener('click', function(){ openReader({ title: it.title, body: it.body, date: date, kind: 'NEWS', local: it.local }); });
+    return el;
+  }
+
+  // ---------- 阅读 ----------
+  function openReader(o){
+    var old = document.querySelector('.bha-modal'); if (old) old.remove();
+    var wrap = document.createElement('div'); wrap.className = 'bha-modal';
+    wrap.innerHTML = '<div class="card" role="dialog" aria-modal="true">' +
+      '<h3>' + o.title + '</h3><div class="date">' + o.date + ' · ' + dayLabel(o.date) + ' · ' + o.kind + '</div>' +
+      '<div class="body">' + (o.body || '还没有正文。') + '</div>' +
+      '<div class="row"><button type="button" class="ghost" id="bha-r-close">关闭</button></div></div>';
+    document.body.appendChild(wrap);
+    wrap.addEventListener('click', function(e){ if (e.target === wrap) wrap.remove(); });
+    wrap.querySelector('#bha-r-close').addEventListener('click', function(){ wrap.remove(); });
+    wrap.addEventListener('keydown', function(e){ if (e.key === 'Escape') wrap.remove(); });
+  }
+
+  // ---------- 写信 ----------
+  function openEditor(date){
+    var old = document.querySelector('.bha-modal'); if (old) old.remove();
+    var wrap = document.createElement('div'); wrap.className = 'bha-modal';
+    wrap.innerHTML = '<div class="card" role="dialog" aria-modal="true"><h3>写一条新闻</h3>' +
+      '<div class="date">' + date + ' · ' + dayLabel(date) + '　存进去后会变成一张报纸卡</div>' +
+      '<label for="bha-e-title">标题</label><input id="bha-e-title" maxlength="40" placeholder="例：周三加练，雨里跑完 5 公里">' +
+      '<label for="bha-e-body">正文</label><textarea id="bha-e-body" maxlength="400" placeholder="像新闻一样写：谁、在哪、干了什么"></textarea>' +
+      '<div class="row"><button type="button" class="ghost" id="bha-e-cancel">取消</button>' +
+      '<button type="button" id="bha-e-save">登到这一天的报纸上</button></div>' +
+      '<div class="hint">先只存在你这台设备。要让全班看到：左下角信箱 →「导出我写的」→ 文件发我。</div></div>';
+    document.body.appendChild(wrap);
+    var input = wrap.querySelector('#bha-e-title');
+    setTimeout(function(){ input.focus(); }, 30);
+    wrap.addEventListener('click', function(e){ if (e.target === wrap) wrap.remove(); });
+    wrap.addEventListener('keydown', function(e){ if (e.key === 'Escape') wrap.remove(); });
+    wrap.querySelector('#bha-e-cancel').addEventListener('click', function(){ wrap.remove(); });
+    wrap.querySelector('#bha-e-save').addEventListener('click', function(){
+      var title = input.value.trim(); if (!title){ input.focus(); return; }
+      var list = localEvents();
+      list.push({ date: date, title: title, body: wrap.querySelector('#bha-e-body').value.trim(), cls: S.cls });
+      saveLocal(list); wrap.remove(); repaint();
+    });
+  }
+
+  // ---------- 信箱（全站常驻） ----------
+  function mountMail(){
+    if (document.getElementById('bha-mail')) return;
+    var mail = document.createElement('button');
+    mail.id = 'bha-mail'; mail.type = 'button';
+    mail.innerHTML = '<span class="ico" aria-hidden="true"></span>时间轴来信 <span class="badge">0</span>';
+    mail.addEventListener('click', openBox);
+    document.body.appendChild(mail);
+  }
+  function refreshBadge(){
+    var m = document.querySelector('#bha-mail .badge');
+    if (m) { var n = String(localEvents().length); if (m.textContent !== n) m.textContent = n; }
+  }
   function openBox(){
     var box = document.getElementById('bha-box-box');
     if (!box){ box = document.createElement('div'); box.id = 'bha-box-box'; box.className = 'bha-box'; document.body.appendChild(box); }
-    var items = collect().slice().reverse();
+    var mine = localEvents().slice().reverse();
     box.innerHTML = '<header><span>时间轴来信</span><button type="button" aria-label="关闭">×</button></header>' +
       '<div class="tools"><button type="button" id="bha-box-write" class="primary">写一条</button>' +
       '<button type="button" id="bha-box-export">导出我写的</button></div>' +
-      (items.length ? items.map(function(it){
-        return '<div class="item"><b>' + it.title + '</b><span>' + it.date + ' · ' + dayLabel(it.date) + ' · ' + it.kind + '</span>' +
-          (it.body ? '<p>' + it.body + '</p>' : '') + '</div>';
-      }).join('') : '<div class="empty">信箱是空的。点时间轴上的方块写第一条。</div>');
+      (mine.length ? mine.map(function(e, i){
+        return '<div class="item" data-i="' + i + '"><b>' + e.title + '</b><span>' + e.date + ' · ' + dayLabel(e.date) + '</span>' +
+          (e.body ? '<p style="font-size:11px;line-height:1.6;margin:4px 0 0;color:#3d4238">' + e.body + '</p>' : '') + '</div>';
+      }).join('') : '<div class="empty">还没有你写的新闻。点「写一条」。</div>');
     box.classList.add('on');
     box.querySelector('header button').addEventListener('click', function(){ box.classList.remove('on'); });
     box.querySelector('#bha-box-export').addEventListener('click', exportLocal);
@@ -796,46 +951,19 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
       openEditor(new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10));
     });
   }
-
-  function openEditor(date){
-    var old = document.querySelector('.bha-edit'); if (old) old.remove();
-    var wrap = document.createElement('div'); wrap.className = 'bha-edit';
-    wrap.innerHTML =
-      '<div class="card" role="dialog" aria-modal="true" aria-labelledby="bha-e-h"><h3 id="bha-e-h">在时间轴上写一笔</h3>' +
-      '<div class="date">' + date + ' · ' + dayLabel(date) + '</div>' +
-      '<label for="bha-e-title">标题</label><input id="bha-e-title" maxlength="40" placeholder="例：周三加练，大雨里跑完 5 公里">' +
-      '<label for="bha-e-body">正文（可空）</label><textarea id="bha-e-body" maxlength="120" placeholder="补一句细节，像报纸的副稿"></textarea>' +
-      '<div class="row"><button type="button" class="ghost" id="bha-e-cancel">取消</button>' +
-      '<button type="button" id="bha-e-save">收进这一天的抽屉</button></div>' +
-      '<div class="hint">先存在你这台设备上，别人看不到。要发给全班：存完点左下角信箱 →「导出我写的」，把文件发我，我发到线上。</div></div>';
-    document.body.appendChild(wrap);
-    var input = wrap.querySelector('#bha-e-title');
-    setTimeout(function(){ input.focus(); }, 30);
-    wrap.addEventListener('click', function(e){ if (e.target === wrap) wrap.remove(); });
-    wrap.addEventListener('keydown', function(e){ if (e.key === 'Escape') wrap.remove(); });
-    wrap.querySelector('#bha-e-cancel').addEventListener('click', function(){ wrap.remove(); });
-    wrap.querySelector('#bha-e-save').addEventListener('click', function(){
-      var title = input.value.trim();
-      if (!title){ input.focus(); return; }
-      var list = localEvents();
-      list.push({ date: date, title: title, body: wrap.querySelector('#bha-e-body').value.trim(), cls: S.cls });
-      saveLocal(list); wrap.remove(); repaint();
-    });
-  }
-
   function exportLocal(){
     var a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([JSON.stringify(localEvents(), null, 2)], { type: 'application/json' }));
-    a.download = '渤海湾竞技_时间轴事件.json';
+    a.download = '渤海湾竞技_时间轴新闻.json';
     document.body.appendChild(a); a.click(); a.remove();
   }
 
+  // ---------- 框架 ----------
   function render(){
+    mountMail(); refreshBadge();
     var grid = document.querySelector('.rank-grid');
     if (!grid){
-      document.querySelectorAll('.bha-hon-bar,.bha-tl-wrap,.bha-tl-outer,.bha-hon-empty-cls').forEach(function(n){ n.remove(); });
-      var mb = document.getElementById('bha-mail'); if (mb) mb.remove();
-      var bx = document.getElementById('bha-box-box'); if (bx) bx.remove();
+      document.querySelectorAll('.bha-hon-bar,.bha-stage,.bha-hon-empty-cls').forEach(function(n){ n.remove(); });
       return;
     }
     var filters = document.querySelector('.rank-filters');
@@ -843,7 +971,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
       var bar = document.createElement('div');
       bar.className = 'bha-hon-bar';
       bar.innerHTML = '<div class="bha-hon-group" role="group" aria-label="板块">' +
-          '<button type="button" data-tab="ranks">排行榜</button><button type="button" data-tab="honours">荣誉室</button></div>' +
+          '<button type="button" data-tab="ranks">排行榜</button><button type="button" data-tab="honours">时间轴</button></div>' +
         '<div class="bha-hon-group" role="group" aria-label="班级">' +
           '<button type="button" data-cls="二班">二班</button><button type="button" data-cls="三班">三班</button></div>';
       (filters || grid).parentNode.insertBefore(bar, filters || grid);
@@ -854,13 +982,6 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
         repaint();
       });
     }
-    if (!document.getElementById('bha-mail')){
-      var mail = document.createElement('button');
-      mail.id = 'bha-mail'; mail.type = 'button';
-      mail.innerHTML = '<span class="ico" aria-hidden="true"></span>时间轴来信 <span class="badge">' + collect().length + '</span>';
-      mail.addEventListener('click', openBox);
-      document.body.appendChild(mail);
-    }
     repaint();
   }
 
@@ -870,19 +991,19 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
     bar.querySelectorAll('[data-cls]').forEach(function(b){ b.classList.toggle('on', b.dataset.cls === S.cls); });
     var grid = document.querySelector('.rank-grid');
     var filters = document.querySelector('.rank-filters');
-    var tl = document.querySelector('.bha-tl-outer');
+    var stage = document.querySelector('.bha-stage');
     if (S.tab === 'honours'){
       if (grid) grid.style.display = 'none';
       if (filters) filters.style.display = 'none';
-      var sig = S.cls + ':' + collect().length + ':' + (isMobile() ? 'm' : 'd');
-      if (tl && tl.dataset.sig !== sig){ tl.remove(); tl = null; }
-      if (!tl){
-        tl = buildTimeline(); tl.dataset.sig = sig;
-        (grid || filters || bar).parentNode.insertBefore(tl, (grid || filters || bar));
+      var sig = S.cls + ':' + localEvents().length + ':' + (isMobile() ? 'm' : 'd');
+      if (stage && stage.dataset.sig !== sig){ stage.remove(); stage = null; }
+      if (!stage){
+        stage = buildTimeline(); stage.dataset.sig = sig;
+        (grid || filters || bar).parentNode.insertBefore(stage, (grid || filters || bar));
       }
-      tl.style.display = '';
+      stage.style.display = '';
     } else {
-      if (tl) tl.style.display = 'none';
+      if (stage) stage.style.display = 'none';
       if (filters) filters.style.display = '';
       if (grid){
         if (S.cls === '二班'){
@@ -903,8 +1024,9 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
     }
   }
 
-  new MutationObserver(function(){ render(); }).observe(document.body, { childList: true, subtree: true });
-  setInterval(render, 900);
+  ensureGush();
+  setInterval(render, 500);
+  render();
 })();
 </script>
 <!-- /bha-honours -->
