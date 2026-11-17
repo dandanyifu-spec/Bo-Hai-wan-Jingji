@@ -509,364 +509,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 <!-- /bha-card-maker -->
 
 
-<!-- bha-honours : 荣誉室（竖直时间轴） -->
-<style id="bha-honours-css">
-.bha-hon-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 20px}
-.bha-hon-group{display:flex;gap:0;border:2px solid #6a705c}
-.bha-hon-group button{background:#191c15;color:#c8cfb8;border:0;padding:9px 16px;font-weight:900;font-size:12px;
-  letter-spacing:.5px;cursor:pointer;font-family:inherit}
-.bha-hon-group button+button{border-left:2px solid #6a705c}
-.bha-hon-group button.on{background:#c5fa39;color:#111}
-.bha-hon-group button:focus-visible{outline:3px solid #ff6841;outline-offset:-3px}
 
-.bha-hon-wrap{position:relative;height:580px;overflow-y:auto;overflow-x:hidden;
-  background:#14170f;border:2px solid #576047;
-  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 54px,#000 calc(100% - 54px),transparent 100%);
-  mask-image:linear-gradient(180deg,transparent 0,#000 54px,#000 calc(100% - 54px),transparent 100%);
-  scrollbar-width:thin;scrollbar-color:#6c7858 #14170f}
-.bha-hon-wrap::-webkit-scrollbar{width:8px}
-.bha-hon-wrap::-webkit-scrollbar-thumb{background:#6c7858}
-
-.bha-tl{position:relative;padding:64px 0 70px}
-.bha-tl:before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:#3f492f;transform:translateX(-50%)}
-
-.bha-day{position:relative;padding:12px 0 4px}
-.bha-day .dot{position:absolute;left:50%;top:28px;width:12px;height:12px;background:#c5fa39;border:2px solid #111;
-  transform:translate(-50%,-50%) rotate(45deg);z-index:2}
-.bha-day .date{position:relative;z-index:3;width:max-content;margin:0 auto 14px;background:#111;color:#c5fa39;
-  border:2px solid #c5fa39;padding:5px 12px;font-family:monospace;font-size:12px;letter-spacing:1px;text-align:center}
-.bha-day .date small{display:block;font-size:9px;color:#9fb083;letter-spacing:.5px;margin-top:2px}
-
-.bha-item{position:relative;display:flex;margin:0 0 16px;padding:0 8px}
-.bha-item.right{justify-content:flex-end;padding-right:calc(50% + 26px)}
-.bha-item.left{justify-content:flex-start;padding-left:calc(50% + 26px)}
-
-.bha-award{display:flex;align-items:center;gap:12px;background:#1d2319;border:2px solid #6f7a58;padding:10px;
-  box-shadow:4px 4px #0a0b08;cursor:pointer;text-align:left;font-family:inherit;color:inherit;max-width:100%}
-.bha-award:hover{border-color:#c5fa39;box-shadow:4px 4px #c5fa39}
-.bha-award:focus-visible{outline:3px solid #ff6841;outline-offset:3px}
-.bha-award img{width:96px;height:96px;display:block;border:2px solid #111;flex:none}
-.bha-award .meta{min-width:0}
-.bha-award b{display:block;font-size:15px;color:#f0f0df;line-height:1.3}
-.bha-award span{display:block;font-size:11px;color:#a9b394;margin-top:4px;font-family:monospace;letter-spacing:.5px}
-
-/* 比赛卡片 */
-.bha-match{display:flex;align-items:center;gap:14px;background:#101208;border:2px solid #dfe0cf;padding:12px 14px;
-  box-shadow:4px 4px #2b3318;text-align:left;font-family:inherit;color:inherit;cursor:default;max-width:100%}
-.bha-match .score{display:flex;align-items:baseline;gap:6px;font-family:"Arial Black",Impact,sans-serif;font-style:italic;
-  font-size:34px;color:#c5fa39;line-height:1;flex:none}
-.bha-match .score i{font-style:normal;font-size:20px;color:#7f8a65}
-.bha-match .m-meta{min-width:0}
-.bha-match .m-meta b{display:block;font-size:13px;color:#f0f0df;line-height:1.35}
-.bha-match .m-meta span{display:block;font-size:10px;color:#a9b394;margin-top:4px;font-family:monospace;letter-spacing:.5px}
-.bha-match .tag{font-family:monospace;font-size:9px;color:#111;background:#c5fa39;padding:2px 6px;margin-left:auto;flex:none}
-.bha-match:hover{border-color:#c5fa39}
-.bha-match:focus-visible{outline:3px solid #ff6841;outline-offset:3px}
-
-/* 比赛详情弹层 */
-.bha-mm{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:16px;
-  background:#0c271ecc;backdrop-filter:blur(4px)}
-.bha-mm-card{position:relative;width:min(520px,92vw);max-height:86vh;overflow:auto;background:#f2f0e2;color:#172010;
-  border:3px solid #111;box-shadow:10px 10px #c5fa39;padding:26px 22px 22px}
-.bha-mm-close{position:absolute;right:8px;top:6px;width:34px;height:34px;font-size:22px;line-height:1;
-  background:none;border:0;cursor:pointer;color:#111}
-.bha-mm-eyebrow{font-family:monospace;font-size:10px;letter-spacing:1px;color:#5f713f;margin-bottom:10px}
-.bha-mm-card h3{font-size:20px;margin:0 0 16px;line-height:1.3;font-weight:900}
-.bha-mm-card h3 em{font-family:"Arial Black",Impact,sans-serif;font-style:italic;font-size:30px;letter-spacing:-1px;
-  background:#111;color:#c5fa39;padding:0 8px;margin:0 4px}
-.bha-mm-row{display:flex;gap:10px;align-items:baseline;border-bottom:1px solid #c4ccb6;padding:9px 0;font-size:13px}
-.bha-mm-row b{min-width:96px}
-.bha-mm-row span{color:#556341;font-size:12px}
-.bha-mm-row span:last-child{margin-left:auto;font-family:monospace}
-.bha-mm-note{margin-top:14px;background:#e3e8d3;padding:12px;font-size:12px;line-height:1.7;color:#3c4a2c}
-.bha-mm-empty{font-size:12px;color:#6d795c;margin:8px 0}
-
-.bha-hon-empty{padding:70px 20px;text-align:center;color:#a9b394}
-.bha-hon-empty b{display:block;font-family:"Arial Black",Arial,sans-serif;font-style:italic;font-size:22px;color:#e8e9d8;margin-bottom:8px}
-
-@media (max-width:720px){
-  body.bha-hon-active #bha-music{opacity:0;pointer-events:none;transform:translateY(16px);transition:opacity .25s,transform .25s}
-  .bha-hon-wrap{height:520px}
-  .bha-tl:before{left:22px}
-  .bha-day .dot{left:22px}
-  .bha-day .date{margin:0 0 12px 44px}
-  .bha-item.right,.bha-item.left{justify-content:flex-start;padding-left:44px;padding-right:8px}
-  .bha-award img{width:76px;height:76px}
-  .bha-match .score{font-size:28px}
-}
-</style>
-<script id="bha-honours-data" type="application/json">[{"date":"2026-11-09","week":1,"awards":[{"name":"金靴","en":"GOLDEN BOOT","player":"张博宇","num":"21","team":"三班"}]},{"date":"2026-11-16","week":2,"awards":[{"name":"金靴","en":"GOLDEN BOOT","player":"张博宇","num":"21","team":"三班"},{"name":"助攻王","en":"ASSIST KING","player":"王鹏然","num":"1","team":"三班"}]}]</script>
-<script id="bha-honours-js">
-(function(){
-  if (window.__BHA_HON__) return;
-  window.__BHA_HON__ = true;
-  const S = { tab: 'ranks', cls: '三班' };
-  const GREEN='#c5fa39', INK='#111210', ORANGE='#ff6841', PAPER='#f2f0e2', GOLD='#f6c453';
-
-  function colour(name){
-    if (name.indexOf('金靴') >= 0) return GOLD;
-    if (name.indexOf('助攻') >= 0) return GREEN;
-    if (name.indexOf('门将') >= 0 || name.indexOf('手套') >= 0) return '#8fd6ff';
-    return ORANGE;
-  }
-
-  function medal(a, date){
-    const c = document.createElement('canvas');
-    c.width = 600; c.height = 600;
-    const x = c.getContext('2d');
-    const bg = colour(a.name);
-    x.fillStyle = bg; x.fillRect(0,0,600,600);
-    x.strokeStyle = INK; x.lineWidth = 8; x.strokeRect(22,22,556,556);
-    x.save(); x.translate(520,-40); x.rotate(-0.5);
-    for (let i=0;i<9;i++){ x.fillStyle = i%2 ? 'rgba(17,18,16,.10)' : 'rgba(0,0,0,0)'; x.fillRect(i*22,-30,11,320); }
-    x.restore();
-    x.fillStyle = INK;
-    x.font = '700 22px "Microsoft YaHei", "PingFang SC", sans-serif';
-    x.fillText('BOHAI BAY · ' + date.slice(5).replace('-','.'), 52, 78);
-    let fs = 96;
-    x.font = '900 ' + fs + 'px "Microsoft YaHei", "PingFang SC", "Arial Black", sans-serif';
-    while (x.measureText(a.name).width > 470 && fs > 46) {
-      fs -= 6; x.font = '900 ' + fs + 'px "Microsoft YaHei", "PingFang SC", "Arial Black", sans-serif';
-    }
-    x.fillText(a.name, 52, 232);
-    x.font = '900 24px "Arial Black", Arial, sans-serif';
-    x.fillText(a.en || '', 54, 272);
-    x.fillStyle = INK; x.fillRect(52, 330, 496, 4);
-    x.font = '900 74px "Microsoft YaHei", "PingFang SC", sans-serif';
-    x.fillText(a.player, 52, 452);
-    x.font = '900 30px "Arial Black", Arial, sans-serif';
-    x.fillText('#' + a.num, 54, 500);
-    x.font = '900 22px "Microsoft YaHei", sans-serif';
-    x.fillText('★ WINNER · ' + a.team, 52, 548);
-    return c;
-  }
-
-  function weekOf(date){
-    const d = new Date(date + 'T00:00:00+08:00');
-    const t = new Date(d.valueOf());
-    t.setUTCDate(t.getUTCDate() + 4 - (t.getUTCDay() || 7));
-    const y0 = new Date(Date.UTC(t.getUTCFullYear(), 0, 1));
-    return Math.ceil((((t - y0) / 86400000) + 1) / 7);
-  }
-  const WEEKDAY = ['周日','周一','周二','周三','周四','周五','周六'];
-  function dayLabel(date){
-    const d = new Date(date + 'T00:00:00+08:00');
-    return WEEKDAY[d.getDay()];
-  }
-
-  let DATA = null;
-  function loadData(){
-    if (!DATA){
-      const el = document.getElementById('club-initial-data');
-      DATA = el ? JSON.parse(el.textContent) : { players: [], matches: [] };
-    }
-    return DATA;
-  }
-  function playerName(id){
-    const p = (loadData().players || []).filter(function(x){ return x.id === id; })[0];
-    return p ? p.name : '—';
-  }
-
-  function readMatches(cls){
-    const data = loadData();
-    return (data.matches || []).map(function(m){
-      const type = m.type || '德比';
-      return {
-        date: m.date, type: type, court: m.court || '小场',
-        teamA: m.teamA || 'A队', teamB: m.teamB || 'B队',
-        a: (m.a || 0) + (m.bonusA || 0), b: (m.b || 0) + (m.bonusB || 0),
-        entries: m.entries || [], note: m.note || ''
-      };
-    }).filter(function(m){
-      if (m.type === '德比') return true;
-      return cls === '三班' ? m.type === '崔强杯' : m.type === '二班';
-    });
-  }
-
-  function openMatch(m){
-    const old = document.querySelector('.bha-mm');
-    if (old) old.remove();
-    const rows = m.entries.map(function(e){
-      return '<div class="bha-mm-row"><b>' + playerName(e.id) + '</b><span>' +
-        (e.team === '二班' ? '二班' : '三班') + '</span><span>' + (e.goals || 0) + ' 球 · ' +
-        (e.assists === null || e.assists === undefined ? '助攻待补' : e.assists + ' 助攻') + '</span></div>';
-    }).join('') || '<p class="bha-mm-empty">这场没录入球员数据。</p>';
-
-    const wrap = document.createElement('div');
-    wrap.className = 'bha-mm';
-    wrap.innerHTML =
-      '<div class="bha-mm-card" role="dialog" aria-modal="true" aria-label="比赛详情">' +
-        '<button type="button" class="bha-mm-close" aria-label="关闭">×</button>' +
-        '<div class="bha-mm-eyebrow">' + m.type + ' · ' + m.court + ' · ' + m.date + '</div>' +
-        '<h3>' + m.teamA + ' <em>' + m.a + ' : ' + m.b + '</em> ' + m.teamB + '</h3>' +
-        '<div class="bha-mm-list">' + rows + '</div>' +
-        (m.note ? '<p class="bha-mm-note">' + m.note + '</p>' : '') +
-      '</div>';
-    document.body.appendChild(wrap);
-    wrap.addEventListener('click', function(e){ if (e.target === wrap) wrap.remove(); });
-    wrap.querySelector('.bha-mm-close').addEventListener('click', function(){ wrap.remove(); });
-    const esc = function(e){ if (e.key === 'Escape'){ wrap.remove(); document.removeEventListener('keydown', esc); } };
-    document.addEventListener('keydown', esc);
-  }
-
-  function buildTimeline(){
-    const wrap = document.createElement('div');
-    wrap.className = 'bha-hon-wrap';
-    const tl = document.createElement('div');
-    tl.className = 'bha-tl';
-
-    const days = {};
-    JSON.parse(document.getElementById('bha-honours-data').textContent).forEach(function(w){
-      w.awards.filter(function(a){ return a.team === S.cls; }).forEach(function(a){
-        (days[w.date] = days[w.date] || { date: w.date, week: w.week, awards: [], matches: [] }).awards.push(a);
-      });
-    });
-    readMatches(S.cls).forEach(function(m){
-      (days[m.date] = days[m.date] || { date: m.date, awards: [], matches: [] }).matches.push(m);
-    });
-
-    const list = Object.values(days).sort(function(a, b){ return a.date < b.date ? -1 : 1; });
-    if (!list.length){
-      const e = document.createElement('div');
-      e.className = 'bha-hon-empty';
-      e.innerHTML = '<b>NOTHING HERE YET.</b>' + S.cls + '还没有比赛和奖项记录。';
-      tl.appendChild(e); wrap.appendChild(tl); return wrap;
-    }
-
-    let side = 0;
-    list.forEach(function(d){
-      const day = document.createElement('div');
-      day.className = 'bha-day';
-      const dot = document.createElement('span'); dot.className = 'dot';
-      const chip = document.createElement('div');
-      chip.className = 'date';
-      chip.innerHTML = d.date.replace(/-/g, '.') + (d.week ? '<small>第 ' + d.week + ' 周 · ' + dayLabel(d.date) + '</small>' : '<small>' + dayLabel(d.date) + '</small>');
-      day.appendChild(dot); day.appendChild(chip);
-      tl.appendChild(day);
-
-      d.matches.forEach(function(m){
-        const item = document.createElement('div');
-        item.className = 'bha-item ' + (side % 2 ? 'left' : 'right');
-        const card = document.createElement('button');
-        card.type = 'button';
-        card.className = 'bha-match';
-        card.setAttribute('aria-label', m.teamA + ' ' + m.a + ' 比 ' + m.b + ' ' + m.teamB + '，查看详情');
-        card.innerHTML =
-          '<span class="score">' + m.a + '<i>:</i>' + m.b + '</span>' +
-          '<span class="m-meta"><b>' + m.teamA + ' vs ' + m.teamB + '</b><span>' + m.type + ' · ' + m.court + ' · ' + m.date.replace(/-/g,'.') + '</span></span>' +
-          '<span class="tag">MATCH</span>';
-        card.addEventListener('click', function(){ openMatch(m); });
-        item.appendChild(card);
-        tl.appendChild(item);
-        side++;
-      });
-
-      d.awards.forEach(function(a){
-        const item = document.createElement('div');
-        item.className = 'bha-item ' + (side % 2 ? 'left' : 'right');
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'bha-award';
-        btn.setAttribute('aria-label', a.name + ' ' + a.player + ' ' + d.date);
-        const img = medal(a, d.date).toDataURL('image/png');
-        btn.innerHTML = '<img alt="' + a.name + ' 奖章" src="' + img + '">' +
-          '<span class="meta"><b>' + a.name + ' · ' + a.player + '</b><span>#' + a.num + ' · 第 ' + weekOf(d.date) + ' 周 · ' + a.en + '</span></span>';
-        btn.addEventListener('click', function(){
-          const a2 = document.createElement('a');
-          a2.href = img; a2.download = '渤海湾竞技_' + a.name + '_' + a.player + '_' + d.date + '.png';
-          document.body.appendChild(a2); a2.click(); a2.remove();
-        });
-        item.appendChild(btn);
-        tl.appendChild(item);
-        side++;
-      });
-    });
-
-    wrap.appendChild(tl);
-    return wrap;
-  }
-
-  function render(){
-    const page = document.querySelector('.rank-grid');
-    if (!page) return;
-    const filters = document.querySelector('.rank-filters');
-    let bar = document.querySelector('.bha-hon-bar');
-    if (!bar){
-      bar = document.createElement('div');
-      bar.className = 'bha-hon-bar';
-      bar.innerHTML =
-        '<div class="bha-hon-group" role="group" aria-label="板块">' +
-          '<button type="button" data-tab="ranks">排行榜</button>' +
-          '<button type="button" data-tab="honours">荣誉室</button>' +
-        '</div>' +
-        '<div class="bha-hon-group" role="group" aria-label="班级">' +
-          '<button type="button" data-cls="二班">二班</button>' +
-          '<button type="button" data-cls="三班">三班</button>' +
-        '</div>';
-      const anchor = filters || page;
-      anchor.parentNode.insertBefore(bar, anchor);
-      bar.addEventListener('click', function(e){
-        const t = e.target.closest('button');
-        if (!t) return;
-        if (t.dataset.tab) S.tab = t.dataset.tab;
-        if (t.dataset.cls) S.cls = t.dataset.cls;
-        paint();
-      });
-    }
-    paint();
-  }
-
-  function paint(){
-    const bar = document.querySelector('.bha-hon-bar');
-    if (!bar) return;
-    bar.querySelectorAll('[data-tab]').forEach(function(b){ b.classList.toggle('on', b.dataset.tab === S.tab); });
-    bar.querySelectorAll('[data-cls]').forEach(function(b){ b.classList.toggle('on', b.dataset.cls === S.cls); });
-
-    const grid = document.querySelector('.rank-grid');
-    const filters = document.querySelector('.rank-filters');
-    let hon = document.querySelector('.bha-hon-wrap');
-
-    document.body.classList.toggle('bha-hon-active', S.tab === 'honours');
-    if (S.tab === 'honours'){
-      if (grid) grid.style.display = 'none';
-      if (filters) filters.style.display = 'none';
-      if (hon && hon.dataset.cls !== S.cls){ hon.remove(); hon = null; }
-      if (!hon){
-        hon = buildTimeline();
-        hon.dataset.cls = S.cls;
-        const anchor = (grid || filters || bar);
-        anchor.parentNode.insertBefore(hon, anchor);
-        requestAnimationFrame(function(){ hon.scrollTop = hon.scrollHeight; });
-      }
-      hon.style.display = '';
-    } else {
-      if (hon) hon.style.display = 'none';
-      if (filters) filters.style.display = '';
-      if (grid){
-        if (S.cls === '二班'){
-          grid.style.display = 'none';
-          let note = document.querySelector('.bha-hon-empty-cls');
-          if (!note){
-            note = document.createElement('div');
-            note.className = 'bha-hon-empty bha-hon-empty-cls';
-            note.innerHTML = '<b>二班还在等人报名。</b>名单里现在只有三班的球员。';
-            grid.parentNode.insertBefore(note, grid);
-          }
-          note.style.display = '';
-        } else {
-          grid.style.display = '';
-          const note = document.querySelector('.bha-hon-empty-cls');
-          if (note) note.style.display = 'none';
-        }
-      }
-    }
-  }
-
-  new MutationObserver(render).observe(document.body, { childList: true, subtree: true });
-  setInterval(render, 900);
-})();
-</script>
-<!-- /bha-honours -->
 
 <!-- bha-sign : 页脚署名 -->
 <script id="bha-sign-js">
@@ -888,4 +531,376 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 })();
 </script>
 <!-- /bha-sign -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- bha-honours : 荣誉室 · 轨道时间轴 -->
+<style id="bha-honours-css">
+.bha-hon-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 18px}
+.bha-hon-group{display:flex;border:2px solid #6a705c}
+.bha-hon-group button{background:#191c15;color:#c8cfb8;border:0;padding:9px 16px;font-weight:900;font-size:12px;letter-spacing:.5px;cursor:pointer;font-family:inherit}
+.bha-hon-group button+button{border-left:2px solid #6a705c}
+.bha-hon-group button.on{background:#c5fa39;color:#111}
+.bha-hon-group button:focus-visible{outline:3px solid #ff6841;outline-offset:-3px}
+.bha-hon-empty{padding:60px 20px;text-align:center;color:#a9b394}
+.bha-hon-empty b{display:block;font-family:"Arial Black",Arial,sans-serif;font-style:italic;font-size:20px;color:#e8e9d8;margin-bottom:8px}
+
+/* ---------- 轨道 ---------- */
+.bha-tl-outer{position:relative;border:2px solid #576047;height:520px;overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 0%,#1b2016 0%,#14170f 60%,#10130c 100%);
+  box-shadow:inset 0 0 0 1px #0b0d08, inset 0 60px 90px -60px #2a3320}
+.bha-tl-wrap{position:relative;height:100%;overflow-x:auto;overflow-y:hidden}
+.bha-tl-wrap::-webkit-scrollbar{height:9px}
+.bha-tl-wrap::-webkit-scrollbar-track{background:#10130c}
+.bha-tl-wrap::-webkit-scrollbar-thumb{background:#647051}
+.bha-rail{position:relative;height:100%}
+.bha-axis{position:absolute;left:0;right:0;top:170px;height:2px;
+  background:linear-gradient(90deg,#2f3722,#c5fa39 8%,#c5fa39 70%,#f6c453 88%,#3a2f10)}
+.bha-day{position:absolute;top:0;bottom:0;width:1px}
+.bha-day .tick{position:absolute;left:0;top:161px;width:1px;height:18px;background:#8a9576}
+.bha-day .node{position:absolute;left:-4px;top:166px;width:9px;height:9px;background:#c5fa39;border:2px solid #0c0f09;transform:rotate(45deg);cursor:pointer;transition:background .15s}
+.bha-day .node:hover,.bha-day .node:focus-visible{background:#ff6841;outline:none}
+.bha-day .dlabel{position:absolute;left:0;top:188px;transform:translateX(-50%);white-space:nowrap;
+  font-family:Consolas,monospace;font-size:10px;color:#93a07e;letter-spacing:.6px;cursor:pointer;padding:2px 4px}
+.bha-day .dlabel b{color:#e8ead9;font-size:11px;letter-spacing:1px}
+.bha-day .dlabel:hover b{color:#c5fa39}
+.bha-cards{position:absolute;left:10px;width:268px}
+.bha-cards.down{top:214px}
+.bha-cards.up{display:none}
+
+/* ---------- 报纸卡片 ---------- */
+.bha-paper{background:linear-gradient(180deg,#f7f4ea,#efece0);color:#14181a;border:1px solid #14181a;padding:13px 13px 16px;margin-bottom:12px;
+  box-shadow:3px 3px 0 #0006;font-family:"Songti SC","SimSun",serif;position:relative}
+.bha-paper:before{content:"";position:absolute;left:0;right:0;top:27px;height:3px;border-top:1px solid #14181a;border-bottom:1px solid #14181a}
+.bha-paper:after{content:"";position:absolute;left:0;right:0;bottom:7px;height:1px;background:#c9c3ae;pointer-events:none}
+.bha-paper .p-kicker{font-family:Consolas,monospace;font-size:8px;letter-spacing:1.5px;color:#7a4f1f}
+.bha-paper h4{font-size:17px;line-height:1.32;margin:17px 0 6px;font-weight:700;letter-spacing:.3px}
+.bha-paper p{font-size:10.5px;line-height:1.75;margin:0;color:#3f4438;font-family:"Microsoft YaHei",sans-serif}
+.bha-paper .p-local{position:absolute;right:7px;bottom:8px;font-size:7px;color:#b0463b;font-family:Consolas,monospace;letter-spacing:1.4px;border:1px solid #b0463b;padding:0 3px;transform:rotate(-4deg)}
+.bha-paper.a1{transform:rotate(-.7deg)}
+.bha-paper.a2{transform:rotate(.6deg)}
+
+/* ---------- 结尾发散 ---------- */
+.bha-future{position:absolute;top:170px;pointer-events:none}
+.bha-future .dot{position:absolute;display:block;border-radius:50%;width:2px;height:2px;background:#f6c453}
+.bha-future .word{position:absolute;left:26px;top:-40px;white-space:nowrap;font-family:Consolas,monospace;
+  font-size:11px;letter-spacing:4px;color:#f6c453;opacity:.9}
+
+/* ---------- 信箱 ---------- */
+#bha-mail{position:fixed;left:18px;bottom:74px;z-index:88;display:flex;align-items:center;gap:9px;
+  background:#111210;border:2px solid #f6c453;color:#f6c453;padding:9px 13px;cursor:pointer;
+  box-shadow:4px 4px #0007;font-family:Consolas,monospace;font-size:11px;letter-spacing:1.2px}
+#bha-mail:hover{transform:translate(-2px,-2px);box-shadow:6px 6px #f6c453}
+#bha-mail .ico{width:16px;height:11px;border:1.5px solid #f6c453;position:relative;flex:none}
+#bha-mail .ico:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 45%,#f6c453 46%,#f6c453 54%,transparent 55%)}
+#bha-mail .badge{background:#f6c453;color:#111;padding:1px 5px;font-size:10px}
+
+/* ---------- 信箱面板 ---------- */
+.bha-box{position:fixed;left:18px;bottom:124px;z-index:89;width:min(430px,88vw);max-height:62vh;overflow:auto;
+  background:#f4f1e6;color:#14181a;border:2px solid #14181a;box-shadow:6px 6px #0008;display:none}
+.bha-box.on{display:block}
+.bha-box header{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:2px solid #14181a;
+  font-family:Consolas,monospace;font-size:11px;letter-spacing:2px}
+.bha-box header button{background:none;border:0;font-size:18px;cursor:pointer;line-height:1}
+.bha-box .tools{display:flex;gap:8px;padding:9px 12px;border-bottom:1px solid #cfc9b4;background:#efecdd}
+.bha-box .tools button{flex:1;padding:6px;border:1px solid #14181a;background:#fffdf5;font:11px "Microsoft YaHei",sans-serif;cursor:pointer}
+.bha-box .tools button.primary{background:#c5fa39}
+.bha-box .item{padding:10px 12px;border-bottom:1px solid #cfc9b4;font-family:"Microsoft YaHei",sans-serif}
+.bha-box .item b{font-family:"Songti SC","SimSun",serif;font-size:14px}
+.bha-box .item span{display:block;font-size:10px;color:#6d6a5a;font-family:Consolas,monospace;margin-top:3px}
+.bha-box .item p{font-size:11px;line-height:1.6;margin:5px 0 0;color:#3d4238}
+.bha-box .empty{padding:30px 14px;text-align:center;color:#7d7a68;font-size:12px}
+
+/* ---------- 编辑弹窗 ---------- */
+.bha-edit{position:fixed;inset:0;z-index:120;background:#0a0d08cc;backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
+.bha-edit .card{background:#f4f1e6;color:#14181a;border:2px solid #14181a;box-shadow:8px 8px #c5fa39;width:min(460px,92vw);padding:20px}
+.bha-edit h3{margin:0 0 4px;font-family:"Songti SC","SimSun",serif;font-size:20px}
+.bha-edit .date{font-family:Consolas,monospace;font-size:11px;color:#6d6a5a;margin-bottom:12px;letter-spacing:1px}
+.bha-edit label{display:block;font-size:11px;color:#5a5747;margin:10px 0 4px;font-family:Consolas,monospace;letter-spacing:1px}
+.bha-edit input,.bha-edit textarea{width:100%;box-sizing:border-box;background:#fffdf5;border:1px solid #14181a;padding:8px 9px;font-size:13px;font-family:"Microsoft YaHei",sans-serif;color:#14181a}
+.bha-edit textarea{min-height:74px;resize:vertical}
+.bha-edit .row{display:flex;gap:8px;margin-top:16px}
+.bha-edit button{flex:1;padding:9px;border:2px solid #14181a;background:#14181a;color:#c5fa39;font-weight:900;font-size:12px;cursor:pointer;font-family:inherit}
+.bha-edit button.ghost{background:#f4f1e6;color:#14181a}
+.bha-edit .hint{font-size:10px;color:#7a7563;margin-top:10px;line-height:1.6}
+
+@media (max-width:720px){
+  .bha-tl-wrap{height:auto;max-height:none;overflow:visible;border:0;background:none;mask-image:none;-webkit-mask-image:none;padding-left:2px}
+  .bha-rail{height:auto}
+  .bha-axis{left:20px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,#2f3722,#c5fa39 10%,#c5fa39 60%,#f6c453 82%,#3a2f10)}
+  .bha-day{position:relative!important;left:0!important;width:auto;height:auto;padding:0 0 18px 42px}
+  .bha-day .tick{left:20px;top:12px;width:12px;height:1px}
+  .bha-day .node{left:16px;top:8px}
+  .bha-day .dlabel{position:static;transform:none;margin:0 0 8px;padding:0}
+  .bha-cards{position:static;width:auto;margin:0}
+  .bha-cards.up,.bha-cards.down{top:auto;bottom:auto}
+  .bha-future{position:relative;top:auto;height:90px;margin-left:20px}
+}
+</style>
+<script id="bha-honours-data" type="application/json">[{"date":"2026-11-09","week":1,"awards":[{"name":"金靴","en":"GOLDEN BOOT","player":"张博宇","num":"21","team":"三班"}]},{"date":"2026-11-16","week":2,"awards":[{"name":"金靴","en":"GOLDEN BOOT","player":"张博宇","num":"21","team":"三班"},{"name":"助攻王","en":"ASSIST KING","player":"王鹏然","num":"1","team":"三班"}]}]</script>
+<script id="bha-honours-js">
+(function(){
+  if (window.__BHA_TL__) return;
+  window.__BHA_TL__ = true;
+  var S = { tab: 'ranks', cls: '三班' };
+  var LSKEY = 'bha-local-events-v1';
+  var WD = ['周日','周一','周二','周三','周四','周五','周六'];
+  var AWARD_WORDS = { '金靴': 1, '助攻王': 1 };
+
+  function loadData(){ try { return JSON.parse(document.getElementById('club-initial-data').textContent); } catch(e){ return { players: [], matches: [] }; } }
+  function localEvents(){ try { return JSON.parse(localStorage.getItem(LSKEY) || '[]'); } catch(e){ return []; } }
+  function saveLocal(l){ try { localStorage.setItem(LSKEY, JSON.stringify(l)); } catch(e){} }
+  function dayLabel(d){ return WD[new Date(d + 'T00:00:00+08:00').getDay()]; }
+  function isMobile(){ return window.matchMedia('(max-width:720px)').matches; }
+
+  function collect(){
+    var items = [];
+    try {
+      JSON.parse(document.getElementById('bha-honours-data').textContent).forEach(function(w){
+        (w.awards || []).forEach(function(a){
+          if (a.team !== S.cls) return;
+          items.push({ date: w.date, kind: 'AWARD', award: true, title: a.name + ' · ' + a.player,
+            body: '第 ' + (w.week || '') + ' 周 · #' + a.num + ' · ' + a.en, local: false });
+        });
+      });
+    } catch(e){}
+    var data = loadData();
+    (data.matches || []).forEach(function(m){
+      var t = m.type || '德比';
+      if (S.cls === '三班' ? (t !== '崔强杯' && t !== '德比') : t !== '二班') return;
+      items.push({ date: m.date, kind: 'MATCH', award: false,
+        title: (m.teamA || 'A队') + ' ' + ((m.a || 0) + (m.bonusA || 0)) + ':' + ((m.b || 0) + (m.bonusB || 0)) + ' ' + (m.teamB || 'B队'),
+        body: t + ' · ' + (m.court || '小场') + (m.note ? ' · ' + m.note : ''), local: false });
+    });
+    localEvents().forEach(function(e){
+      if (e.cls && e.cls !== S.cls) return;
+      items.push({ date: e.date, kind: 'NEWS', award: false, title: e.title, body: e.body || '', local: true });
+    });
+    items.sort(function(a, b){ return a.date < b.date ? -1 : 1; });
+    return items;
+  }
+
+  function buildTimeline(){
+    var outer = document.createElement('div'); outer.className = 'bha-tl-outer';
+    var wrap = document.createElement('div'); wrap.className = 'bha-tl-wrap';
+    var rail = document.createElement('div'); rail.className = 'bha-rail';
+    wrap.appendChild(rail); outer.appendChild(wrap);
+    var items = collect();
+    if (!items.length){
+      rail.innerHTML = '<div class="bha-hon-empty"><b>NOTHING HERE YET.</b>还没有任何记录。</div>';
+      return outer || wrap;
+    }
+    var days = {};
+    items.forEach(function(it){ (days[it.date] = days[it.date] || []).push(it); });
+    var dates = Object.keys(days).sort();
+    var GAP = 300, PADL = 210, PADR = 620;
+    if (!isMobile()){
+      rail.style.width = (PADL + (dates.length - 1) * GAP + PADR) + 'px';
+      var axis = document.createElement('div'); axis.className = 'bha-axis'; rail.appendChild(axis);
+      var head = document.createElement('div');
+      head.style.cssText = 'position:absolute;left:34px;top:28px;right:0;display:flex;align-items:baseline;gap:14px';
+      head.innerHTML = '<span style="font-family:"Arial Black",Arial,sans-serif;font-style:italic;font-size:15px;color:#e8ead9;letter-spacing:-.5px">MATCH ARCHIVE</span>' +
+        '<span style="flex:1;height:1px;background:linear-gradient(90deg,#4a5438,transparent)"></span>' +
+        '<span style="font-family:Consolas,monospace;font-size:10px;letter-spacing:2px;color:#7f8b6c;padding-right:34px">2026 秋 · 从 10.29 开始</span>';
+      outer.appendChild(head);
+      var cap = document.createElement('div');
+      cap.style.cssText = 'position:absolute;left:62px;top:170px;display:flex;flex-direction:column;align-items:center;transform:translateY(-1px)';
+      cap.innerHTML = '<div style="width:9px;height:9px;border:2px solid #c5fa39;background:#14170f;transform:rotate(45deg);margin-bottom:10px"></div>' +
+        '<div style="position:absolute;top:-30px;left:6px;white-space:nowrap;font-family:Consolas,monospace;font-size:10px;letter-spacing:1px;color:#8e9a78">起点 · 10.29 10:45</div>';
+      rail.appendChild(cap);
+    }
+    dates.forEach(function(d, i){
+      var col = document.createElement('div');
+      col.className = 'bha-day';
+      if (!isMobile()) col.style.left = (PADL + i * GAP) + 'px';
+      var tick = document.createElement('div'); tick.className = 'tick';
+      var node = document.createElement('button');
+      node.type = 'button'; node.className = 'node';
+      node.setAttribute('aria-label', '给 ' + d + ' 添加一件事');
+      node.addEventListener('click', function(){ openEditor(d); });
+      var lab = document.createElement('div'); lab.className = 'dlabel';
+      lab.innerHTML = '<b>' + d.slice(5).replace('-', '.') + '</b> ' + dayLabel(d) + ' <span style="color:#c5fa39">+</span>';
+      lab.addEventListener('click', function(){ openEditor(d); });
+      col.appendChild(tick); col.appendChild(node); col.appendChild(lab);
+
+      var hasAward = days[d].some(function(x){ return x.award; });
+      var cards = document.createElement('div');
+      cards.className = 'bha-cards down';
+      days[d].forEach(function(it, k){
+        var p = document.createElement('article');
+        p.className = 'bha-paper ' + (k % 2 ? 'a2' : (k ? 'a1' : ''));
+        p.innerHTML = '<div class="p-kicker">' + it.kind + ' · ' + d.replace(/-/g, '.') + '</div>' +
+          '<h4>' + it.title + '</h4><p>' + (it.body || '') + '</p>' +
+          (it.local ? '<span class="p-local">本人所记</span>' : '');
+        cards.appendChild(p);
+      });
+      col.appendChild(cards);
+      rail.appendChild(col);
+    });
+
+    // 结尾：金色发散
+    var fut = document.createElement('div'); fut.className = 'bha-future';
+    fut.style.left = (isMobile() ? 0 : (PADL + (dates.length - 1) * GAP + 330)) + 'px';
+    var word = document.createElement('div'); word.className = 'word'; word.textContent = '未完待续 ——';
+    fut.appendChild(word);
+    var seed = 11;
+    function rnd(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    var beam = document.createElement('div');
+    beam.style.cssText = 'position:absolute;left:0;top:-1px;width:230px;height:2px;background:linear-gradient(90deg,#c5fa39,transparent)';
+    fut.appendChild(beam);
+    for (var k = 0; k < 150; k++){
+      var t = rnd();
+      var dot = document.createElement('i'); dot.className = 'dot';
+      var r = (1.6 + rnd() * 4.2) * (1 - t * 0.55);
+      dot.style.left = (t * 240) + 'px';
+      dot.style.top = (Math.sin(t * 2.6) * 46 * (0.45 + rnd()) + (rnd() - 0.5) * 18) + 'px';
+      dot.style.width = r + 'px'; dot.style.height = r + 'px';
+      dot.style.opacity = (0.95 - t * 0.9).toFixed(2);
+      dot.style.background = rnd() > 0.3 ? '#f6c453' : '#c5fa39';
+      fut.appendChild(dot);
+    }
+    rail.appendChild(fut);
+    return outer;
+  }
+
+  function openBox(){
+    var box = document.getElementById('bha-box-box');
+    if (!box){ box = document.createElement('div'); box.id = 'bha-box-box'; box.className = 'bha-box'; document.body.appendChild(box); }
+    var items = collect().slice().reverse();
+    box.innerHTML = '<header><span>时间轴来信</span><button type="button" aria-label="关闭">×</button></header>' +
+      '<div class="tools"><button type="button" id="bha-box-write" class="primary">写一条</button>' +
+      '<button type="button" id="bha-box-export">导出我写的</button></div>' +
+      (items.length ? items.map(function(it){
+        return '<div class="item"><b>' + it.title + '</b><span>' + it.date + ' · ' + dayLabel(it.date) + ' · ' + it.kind + '</span>' +
+          (it.body ? '<p>' + it.body + '</p>' : '') + '</div>';
+      }).join('') : '<div class="empty">信箱是空的。点时间轴上的方块写第一条。</div>');
+    box.classList.add('on');
+    box.querySelector('header button').addEventListener('click', function(){ box.classList.remove('on'); });
+    box.querySelector('#bha-box-export').addEventListener('click', exportLocal);
+    box.querySelector('#bha-box-write').addEventListener('click', function(){
+      box.classList.remove('on');
+      openEditor(new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10));
+    });
+  }
+
+  function openEditor(date){
+    var old = document.querySelector('.bha-edit'); if (old) old.remove();
+    var wrap = document.createElement('div'); wrap.className = 'bha-edit';
+    wrap.innerHTML =
+      '<div class="card" role="dialog" aria-modal="true" aria-labelledby="bha-e-h"><h3 id="bha-e-h">在时间轴上写一笔</h3>' +
+      '<div class="date">' + date + ' · ' + dayLabel(date) + '</div>' +
+      '<label for="bha-e-title">标题</label><input id="bha-e-title" maxlength="40" placeholder="例：周三加练，大雨里跑完 5 公里">' +
+      '<label for="bha-e-body">正文（可空）</label><textarea id="bha-e-body" maxlength="120" placeholder="补一句细节，像报纸的副稿"></textarea>' +
+      '<div class="row"><button type="button" class="ghost" id="bha-e-cancel">取消</button>' +
+      '<button type="button" id="bha-e-save">收进这一天的抽屉</button></div>' +
+      '<div class="hint">先存在你这台设备上，别人看不到。要发给全班：存完点左下角信箱 →「导出我写的」，把文件发我，我发到线上。</div></div>';
+    document.body.appendChild(wrap);
+    var input = wrap.querySelector('#bha-e-title');
+    setTimeout(function(){ input.focus(); }, 30);
+    wrap.addEventListener('click', function(e){ if (e.target === wrap) wrap.remove(); });
+    wrap.addEventListener('keydown', function(e){ if (e.key === 'Escape') wrap.remove(); });
+    wrap.querySelector('#bha-e-cancel').addEventListener('click', function(){ wrap.remove(); });
+    wrap.querySelector('#bha-e-save').addEventListener('click', function(){
+      var title = input.value.trim();
+      if (!title){ input.focus(); return; }
+      var list = localEvents();
+      list.push({ date: date, title: title, body: wrap.querySelector('#bha-e-body').value.trim(), cls: S.cls });
+      saveLocal(list); wrap.remove(); repaint();
+    });
+  }
+
+  function exportLocal(){
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(localEvents(), null, 2)], { type: 'application/json' }));
+    a.download = '渤海湾竞技_时间轴事件.json';
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  function render(){
+    var grid = document.querySelector('.rank-grid');
+    if (!grid){
+      document.querySelectorAll('.bha-hon-bar,.bha-tl-wrap,.bha-tl-outer,.bha-hon-empty-cls').forEach(function(n){ n.remove(); });
+      var mb = document.getElementById('bha-mail'); if (mb) mb.remove();
+      var bx = document.getElementById('bha-box-box'); if (bx) bx.remove();
+      return;
+    }
+    var filters = document.querySelector('.rank-filters');
+    if (!document.querySelector('.bha-hon-bar')){
+      var bar = document.createElement('div');
+      bar.className = 'bha-hon-bar';
+      bar.innerHTML = '<div class="bha-hon-group" role="group" aria-label="板块">' +
+          '<button type="button" data-tab="ranks">排行榜</button><button type="button" data-tab="honours">荣誉室</button></div>' +
+        '<div class="bha-hon-group" role="group" aria-label="班级">' +
+          '<button type="button" data-cls="二班">二班</button><button type="button" data-cls="三班">三班</button></div>';
+      (filters || grid).parentNode.insertBefore(bar, filters || grid);
+      bar.addEventListener('click', function(e){
+        var t = e.target.closest('button'); if (!t) return;
+        if (t.dataset.tab) S.tab = t.dataset.tab;
+        if (t.dataset.cls) S.cls = t.dataset.cls;
+        repaint();
+      });
+    }
+    if (!document.getElementById('bha-mail')){
+      var mail = document.createElement('button');
+      mail.id = 'bha-mail'; mail.type = 'button';
+      mail.innerHTML = '<span class="ico" aria-hidden="true"></span>时间轴来信 <span class="badge">' + collect().length + '</span>';
+      mail.addEventListener('click', openBox);
+      document.body.appendChild(mail);
+    }
+    repaint();
+  }
+
+  function repaint(){
+    var bar = document.querySelector('.bha-hon-bar'); if (!bar) return;
+    bar.querySelectorAll('[data-tab]').forEach(function(b){ b.classList.toggle('on', b.dataset.tab === S.tab); });
+    bar.querySelectorAll('[data-cls]').forEach(function(b){ b.classList.toggle('on', b.dataset.cls === S.cls); });
+    var grid = document.querySelector('.rank-grid');
+    var filters = document.querySelector('.rank-filters');
+    var tl = document.querySelector('.bha-tl-outer');
+    if (S.tab === 'honours'){
+      if (grid) grid.style.display = 'none';
+      if (filters) filters.style.display = 'none';
+      var sig = S.cls + ':' + collect().length + ':' + (isMobile() ? 'm' : 'd');
+      if (tl && tl.dataset.sig !== sig){ tl.remove(); tl = null; }
+      if (!tl){
+        tl = buildTimeline(); tl.dataset.sig = sig;
+        (grid || filters || bar).parentNode.insertBefore(tl, (grid || filters || bar));
+      }
+      tl.style.display = '';
+    } else {
+      if (tl) tl.style.display = 'none';
+      if (filters) filters.style.display = '';
+      if (grid){
+        if (S.cls === '二班'){
+          grid.style.display = 'none';
+          var note = document.querySelector('.bha-hon-empty-cls');
+          if (!note){
+            note = document.createElement('div');
+            note.className = 'bha-hon-empty bha-hon-empty-cls';
+            note.innerHTML = '<b>二班榜</b>名单已录入 18 人，比赛记录会自己排进来。';
+            grid.parentNode.insertBefore(note, grid);
+          }
+          note.style.display = '';
+        } else {
+          grid.style.display = '';
+          var n2 = document.querySelector('.bha-hon-empty-cls'); if (n2) n2.style.display = 'none';
+        }
+      }
+    }
+  }
+
+  new MutationObserver(function(){ render(); }).observe(document.body, { childList: true, subtree: true });
+  setInterval(render, 900);
+})();
+</script>
+<!-- /bha-honours -->
 </body></html>
