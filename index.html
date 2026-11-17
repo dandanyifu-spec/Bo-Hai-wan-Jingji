@@ -551,6 +551,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 
 
 
+
 <!-- bha-honours : 时间轴 -->
 <style id="bha-honours-css">
 .bha-hon-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 18px}
@@ -562,59 +563,61 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 .bha-hon-empty{padding:60px 20px;text-align:center;color:#a9b394}
 .bha-hon-empty b{display:block;font-family:"Arial Black",Arial,sans-serif;font-style:italic;font-size:20px;color:#e8e9d8;margin-bottom:8px}
 
-/* ===== 通屏轴 ===== */
+/* ===== 通屏舞台 ===== */
 .bha-stage{position:relative;width:100vw;margin-left:calc(50% - 50vw);background:
   radial-gradient(90% 120% at 30% 0%,#1c2117 0%,#12150e 55%,#0d100a 100%);
   border-top:2px solid #3d4630;border-bottom:2px solid #3d4630;overflow:hidden}
-.bha-stage .bha-scroller{overflow-x:auto;overflow-y:hidden;height:460px;scrollbar-width:thin;scrollbar-color:#5d6a49 #0d100a}
-.bha-stage .bha-scroller::-webkit-scrollbar{height:8px}
-.bha-stage .bha-scroller::-webkit-scrollbar-thumb{background:#5d6a49}
+.bha-scroller{overflow-x:auto;overflow-y:hidden;height:660px;scrollbar-width:thin;scrollbar-color:#5d6a49 #0d100a}
+.bha-scroller::-webkit-scrollbar{height:8px}
+.bha-scroller::-webkit-scrollbar-thumb{background:#5d6a49}
 .bha-rail{position:relative;height:100%}
-.bha-axisline{position:absolute;left:0;right:0;top:150px;height:2px;
-  background:linear-gradient(90deg,#2f3722,#c5fa39 4%,#c5fa39 78%,#f6c453 92%,#f6c453)}
-.bha-tick{position:absolute;top:150px;width:1px;height:10px;background:#4c5840}
-.bha-tick.major{height:16px;top:142px;background:#7e8c68}
-.bha-lab{position:absolute;top:168px;transform:translateX(-50%);white-space:nowrap;font-family:Consolas,monospace;
-  font-size:9px;color:#6f7d5c;letter-spacing:.5px;cursor:pointer;padding:2px 3px}
-.bha-lab b{color:#cfd8bd;font-size:10px}
+.bha-axisline{position:absolute;left:0;right:0;top:285px;height:2px;
+  background:linear-gradient(90deg,#2f3722,#c5fa39 3%,#c5fa39 80%,#f6c453 93%,#f6c453)}
+.bha-tick{position:absolute;top:285px;width:1px;height:8px;background:#46523a}
+.bha-tick.major{height:14px;top:279px;background:#7e8c68}
+.bha-lab{position:absolute;top:300px;transform:translateX(-50%);white-space:nowrap;font-family:Consolas,monospace;
+  font-size:9px;color:#6f7d5c;letter-spacing:.4px;cursor:pointer;padding:2px 3px}
+.bha-lab b{color:#d3dbc3;font-size:10px}
 .bha-lab:hover b{color:#c5fa39}
-.bha-node{position:absolute;top:145px;width:11px;height:11px;background:#c5fa39;border:2px solid #0c0f09;
-  transform:translateX(-50%) rotate(45deg);cursor:pointer}
+.bha-node{position:absolute;top:280px;width:10px;height:10px;background:#c5fa39;border:2px solid #0c0f09;
+  transform:translateX(-50%) rotate(45deg);cursor:pointer;z-index:3}
 .bha-node:hover{background:#ff6841}
 .bha-col{position:absolute;top:0;bottom:0;width:1px}
-.bha-col .stack{position:absolute;top:206px;left:0;width:250px;margin-left:-125px}
+.bha-col .stack{position:absolute;left:0;width:300px;margin-left:-150px;display:flex;flex-direction:column;gap:10px}
+.bha-col .stack.up{bottom:calc(100% - 262px);justify-content:flex-end}
+.bha-col .stack.down{top:330px}
 
 /* ===== 原版比赛卡 ===== */
-.bha-match{display:flex;align-items:center;gap:12px;background:#101208;border:2px solid #dfe0cf;padding:10px 12px;
-  box-shadow:4px 4px #2b3318;text-align:left;font-family:inherit;color:inherit;margin-bottom:12px;cursor:default}
-.bha-match .score{display:flex;align-items:baseline;gap:5px;font-family:"Arial Black",Impact,sans-serif;font-style:italic;
-  font-size:26px;color:#c5fa39;line-height:1;flex:none}
-.bha-match .score i{font-style:normal;font-size:15px;color:#7f8a65}
+.bha-match{display:flex;align-items:center;gap:14px;background:#101208;border:2px solid #dfe0cf;padding:12px 14px;
+  box-shadow:4px 4px #2b3318;text-align:left;font-family:inherit;color:inherit;cursor:default;box-sizing:border-box}
+.bha-match .score{display:flex;align-items:baseline;gap:6px;font-family:"Arial Black",Impact,sans-serif;font-style:italic;
+  font-size:34px;color:#c5fa39;line-height:1;flex:none}
+.bha-match .score i{font-style:normal;font-size:20px;color:#7f8a65}
 .bha-match .m-meta{min-width:0}
-.bha-match .m-meta b{display:block;font-size:12px;color:#f0f0df;line-height:1.35}
-.bha-match .m-meta span{display:block;font-size:9px;color:#a9b394;margin-top:3px;font-family:monospace;letter-spacing:.5px}
-.bha-match .tag{font-family:monospace;font-size:8px;color:#111;background:#c5fa39;padding:2px 5px;margin-left:auto;flex:none}
+.bha-match .m-meta b{display:block;font-size:13px;color:#f0f0df;line-height:1.35}
+.bha-match .m-meta span{display:block;font-size:10px;color:#a9b394;margin-top:4px;font-family:monospace;letter-spacing:.5px}
+.bha-match .tag{font-family:monospace;font-size:9px;color:#111;background:#c5fa39;padding:2px 6px;margin-left:auto;flex:none}
 
 /* ===== 原版奖项卡 ===== */
-.bha-award{display:flex;align-items:center;gap:10px;background:#1d2319;border:2px solid #6f7a58;padding:9px 11px;
-  box-shadow:4px 4px #0a0b08;text-align:left;font-family:inherit;color:inherit;margin-bottom:12px;cursor:pointer;width:100%;box-sizing:border-box}
-.bha-award:hover{border-color:#c5fa39}
-.bha-award .star{width:34px;height:34px;flex:none;display:grid;place-items:center;background:#c5fa39;color:#111;
-  font-family:"Arial Black",Impact,sans-serif;font-style:italic;font-size:17px}
-.bha-award .meta b{display:block;font-size:13px;color:#f0f0df;line-height:1.3}
-.bha-award .meta span{display:block;font-size:9px;color:#a9b394;margin-top:3px;font-family:monospace;letter-spacing:.5px}
+.bha-award{display:flex;align-items:center;gap:12px;background:#1d2319;border:2px solid #6f7a58;padding:10px;
+  box-shadow:4px 4px #0a0b08;cursor:pointer;text-align:left;font-family:inherit;color:inherit;box-sizing:border-box}
+.bha-award:hover{border-color:#c5fa39;box-shadow:4px 4px #c5fa39}
+.bha-award:focus-visible{outline:3px solid #ff6841;outline-offset:3px}
+.bha-award img{width:96px;height:96px;display:block;border:2px solid #111;flex:none}
+.bha-award .meta{min-width:0}
+.bha-award b{display:block;font-size:15px;color:#f0f0df;line-height:1.3}
+.bha-award span{display:block;font-size:11px;color:#a9b394;margin-top:4px;font-family:monospace;letter-spacing:.5px}
 
 /* ===== 报纸新闻卡 ===== */
-.bha-news{background:#f4f1e6;color:#14181a;border:1px solid #14181a;padding:10px 11px 12px;margin-bottom:12px;
-  box-shadow:3px 3px #0006;font-family:"Songti SC","SimSun",serif;text-align:left;width:100%;box-sizing:border-box;cursor:pointer}
+.bha-news{background:#f4f1e6;color:#14181a;border:1px solid #14181a;padding:10px 11px 12px;
+  box-shadow:3px 3px #0006;font-family:"Songti SC","SimSun",serif;text-align:left;box-sizing:border-box;cursor:pointer}
 .bha-news .n-top{display:flex;justify-content:space-between;align-items:center;font-family:Consolas,monospace;font-size:8px;letter-spacing:1.5px;color:#7a4f1f}
 .bha-news .n-top i{font-style:normal;background:#14181a;color:#f4f1e6;padding:1px 5px;letter-spacing:1.5px}
 .bha-news h4{font-size:15px;line-height:1.32;margin:9px 0 3px;font-weight:700}
 .bha-news p{font-size:10px;line-height:1.6;margin:0;color:#454a3e;font-family:"Microsoft YaHei",sans-serif;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.bha-news:after{content:"点开读全文";display:block;margin-top:6px;font-size:8px;letter-spacing:1px;color:#9a9482;font-family:Consolas,monospace}
 
-/* ===== 信箱（全站） ===== */
+/* ===== 邮箱（全站） ===== */
 #bha-mail{position:fixed;left:18px;bottom:18px;z-index:96;display:flex;align-items:center;gap:9px;
   background:#111210;border:2px solid #f6c453;color:#f6c453;padding:9px 13px;cursor:pointer;
   box-shadow:4px 4px #0007;font-family:Consolas,monospace;font-size:11px;letter-spacing:1.2px}
@@ -631,12 +634,12 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 .bha-box .tools{display:flex;gap:8px;padding:9px 12px;border-bottom:1px solid #cfc9b4;background:#efecdd}
 .bha-box .tools button{flex:1;padding:6px;border:1px solid #14181a;background:#fffdf5;font:11px "Microsoft YaHei",sans-serif;cursor:pointer}
 .bha-box .tools button.primary{background:#c5fa39}
-.bha-box .item{padding:10px 12px;border-bottom:1px solid #cfc9b4;font-family:"Microsoft YaHei",sans-serif;cursor:pointer}
+.bha-box .item{padding:10px 12px;border-bottom:1px solid #cfc9b4;font-family:"Microsoft YaHei",sans-serif}
 .bha-box .item b{font-family:"Songti SC","SimSun",serif;font-size:13px}
 .bha-box .item span{display:block;font-size:10px;color:#6d6a5a;font-family:Consolas,monospace;margin-top:3px}
 .bha-box .empty{padding:30px 14px;text-align:center;color:#7d7a68;font-size:12px}
 
-/* ===== 编辑/阅读 ===== */
+/* ===== 弹窗 ===== */
 .bha-modal{position:fixed;inset:0;z-index:120;background:#0a0d08cc;backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
 .bha-modal .card{background:#f4f1e6;color:#14181a;border:2px solid #14181a;box-shadow:8px 8px #c5fa39;width:min(480px,92vw);padding:20px;max-height:88vh;overflow:auto}
 .bha-modal h3{margin:0 0 4px;font-family:"Songti SC","SimSun",serif;font-size:20px}
@@ -652,25 +655,22 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 
 /* ===== 井喷 ===== */
 #bha-gush{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:0;transition:opacity .25s}
-.bha-gush-tip{position:absolute;right:22px;top:16px;font-family:Consolas,monospace;font-size:11px;letter-spacing:6px;
-  color:#f6c453;opacity:.75;pointer-events:none}
 
 @media (max-width:720px){
-  .bha-stage .bha-scroller{height:auto;max-height:none;overflow:visible}
-  .bha-stage{background:#10130c}
-  .bha-axisline{left:20px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,#2f3722,#c5fa39 8%,#c5fa39 60%,#f6c453 92%)}
+  .bha-scroller{height:auto;max-height:none;overflow:visible}
   .bha-rail{height:auto}
-  .bha-col{position:relative!important;left:0!important;width:auto;padding:0 0 6px 40px}
-  .bha-tick{left:20px;top:16px;width:12px;height:1px}
-  .bha-tick.major{top:16px;height:1px}
-  .bha-lab{position:static;transform:none;margin:4px 0 8px}
-  .bha-node{left:16px;top:11px}
-  .bha-col .stack{position:static;width:auto;margin:0}
+  .bha-axisline{left:20px;right:auto;top:0;bottom:0;width:2px;height:auto;background:linear-gradient(180deg,#2f3722,#c5fa39 8%,#c5fa39 60%,#f6c453 92%)}
+  .bha-col{position:relative!important;left:0!important;width:auto;padding:0 0 8px 42px}
+  .bha-tick{left:20px;top:18px;width:12px;height:1px}
+  .bha-tick.major{top:18px;height:1px}
+  .bha-lab{position:static;transform:none;margin:2px 0 8px}
+  .bha-node{left:16px;top:13px}
+  .bha-col .stack,.bha-col .stack.up,.bha-col .stack.down{position:static;width:auto;margin:0;display:flex;flex-direction:column;gap:10px}
+  .bha-award img{width:76px;height:76px}
   #bha-mail{left:12px;bottom:14px;padding:10px;gap:0;font-size:0}
   #bha-mail .badge{position:absolute;top:-8px;right:-8px;font-size:10px}
   #bha-mail .ico{width:20px;height:14px}
   .bha-box{left:12px;right:12px;width:auto;bottom:64px}
-  .bha-gush-tip{display:none}
 }
 </style>
 <script id="bha-honours-data" type="application/json">[{"date":"2026-11-09","week":1,"awards":[{"name":"金靴","en":"GOLDEN BOOT","player":"张博宇","num":"21","team":"三班"}]},{"date":"2026-11-16","week":2,"awards":[{"name":"金靴","en":"GOLDEN BOOT","player":"张博宇","num":"21","team":"三班"},{"name":"助攻王","en":"ASSIST KING","player":"王鹏然","num":"1","team":"三班"}]}]</script>
@@ -681,8 +681,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
   var S = { tab: 'ranks', cls: '三班' };
   var LSKEY = 'bha-local-events-v1';
   var WD = ['周日','周一','周二','周三','周四','周五','周六'];
-  var START = new Date('2026-10-29T10:45:00+08:00');
-  var END_WEEK_ROLL = true;
+  var INK = '#111210';
 
   function loadData(){ try { return JSON.parse(document.getElementById('club-initial-data').textContent); } catch(e){ return { players: [], matches: [] }; } }
   function localEvents(){ try { return JSON.parse(localStorage.getItem(LSKEY) || '[]'); } catch(e){ return []; } }
@@ -690,12 +689,38 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
   function dayLabel(d){ return WD[new Date(d + 'T00:00:00+08:00').getDay()]; }
   function isMobile(){ return window.matchMedia('(max-width:720px)').matches; }
   function iso(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
-  function nextSunday(){ // 本周日（今天就是周日则今天），轴一直铺到这个周日
+  function nextSunday(){
     var now = new Date();
     var d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var add = (7 - d.getDay()) % 7;
-    d.setDate(d.getDate() + add);
+    d.setDate(d.getDate() + ((7 - d.getDay()) % 7));
     return d;
+  }
+  function colour(name){ return name.indexOf('金靴') >= 0 ? '#c5fa39' : '#ff6841'; }
+  function medal(a, date){
+    var c = document.createElement('canvas'); c.width = 600; c.height = 600;
+    var x = c.getContext('2d');
+    x.fillStyle = colour(a.name); x.fillRect(0,0,600,600);
+    x.strokeStyle = INK; x.lineWidth = 8; x.strokeRect(22,22,556,556);
+    x.save(); x.translate(520,-40); x.rotate(-0.5);
+    for (var i=0;i<9;i++){ x.fillStyle = i%2 ? 'rgba(17,18,16,.10)' : 'rgba(0,0,0,0)'; x.fillRect(i*22,-30,11,320); }
+    x.restore();
+    x.fillStyle = INK;
+    x.font = '700 22px "Microsoft YaHei", "PingFang SC", sans-serif';
+    x.fillText('BOHAI BAY · ' + date.slice(5).replace('-','.'), 52, 78);
+    var fs = 96;
+    x.font = '900 ' + fs + 'px "Microsoft YaHei", "PingFang SC", "Arial Black", sans-serif';
+    while (x.measureText(a.name).width > 470 && fs > 46) { fs -= 6; x.font = '900 ' + fs + 'px "Microsoft YaHei", "PingFang SC", "Arial Black", sans-serif'; }
+    x.fillText(a.name, 52, 232);
+    x.font = '900 24px "Arial Black", Arial, sans-serif';
+    x.fillText(a.en || '', 54, 272);
+    x.fillStyle = INK; x.fillRect(52, 330, 496, 4);
+    x.font = '900 74px "Microsoft YaHei", "PingFang SC", sans-serif';
+    x.fillText(a.player, 52, 452);
+    x.font = '900 30px "Arial Black", Arial, sans-serif';
+    x.fillText('#' + a.num, 54, 500);
+    x.font = '900 22px "Microsoft YaHei", sans-serif';
+    x.fillText('★ WINNER · ' + a.team, 52, 548);
+    return c;
   }
 
   function collect(){
@@ -704,8 +729,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
       JSON.parse(document.getElementById('bha-honours-data').textContent).forEach(function(w){
         (w.awards || []).forEach(function(a){
           if (a.team !== S.cls) return;
-          items.push({ date: w.date, kind: 'AWARD', title: a.name + ' · ' + a.player, player: a.player,
-            body: '第 ' + (w.week || '') + ' 周 · #' + a.num + ' · ' + a.en });
+          items.push({ date: w.date, kind: 'AWARD', award: a, week: w.week });
         });
       });
     } catch(e){}
@@ -713,12 +737,11 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
     (data.matches || []).forEach(function(m){
       var t = m.type || '德比';
       if (S.cls === '三班' ? (t !== '崔强杯' && t !== '德比') : t !== '二班') return;
-      items.push({ date: m.date, kind: 'MATCH', title: (m.teamA || 'A队') + ' vs ' + (m.teamB || 'B队'),
-        score: [(m.a || 0) + (m.bonusA || 0), (m.b || 0) + (m.bonusB || 0)], body: t + ' · ' + (m.court || '小场') + (m.note ? ' · ' + m.note : '') });
+      items.push({ date: m.date, kind: 'MATCH', m: m });
     });
     localEvents().forEach(function(e){
       if (e.cls && e.cls !== S.cls) return;
-      items.push({ date: e.date, kind: 'NEWS', title: e.title, body: e.body || '', local: true });
+      items.push({ date: e.date, kind: 'NEWS', e: e });
     });
     items.sort(function(a, b){ return a.date < b.date ? -1 : 1; });
     return items;
@@ -726,120 +749,104 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 
   // ---------- 井喷 ----------
   var gushCanvas = null, gushCtx = null, gushParts = [], gushRAF = null, gushed = false;
-  function ensureGush(){
-    if (gushCanvas) return;
-    gushCanvas = document.createElement('canvas');
-    gushCanvas.id = 'bha-gush';
-    document.body.appendChild(gushCanvas);
-    gushCtx = gushCanvas.getContext('2d');
-    sizeGush();
-    window.addEventListener('resize', sizeGush);
-  }
   function sizeGush(){
     if (!gushCanvas) return;
-    gushCanvas.width = window.innerWidth * (window.devicePixelRatio || 1);
-    gushCanvas.height = window.innerHeight * (window.devicePixelRatio || 1);
-    gushCanvas.style.width = window.innerWidth + 'px';
-    gushCanvas.style.height = window.innerHeight + 'px';
-    gushCtx.setTransform(window.devicePixelRatio || 1, 0, 0, window.devicePixelRatio || 1, 0, 0);
+    gushCanvas.width = innerWidth * (devicePixelRatio || 1);
+    gushCanvas.height = innerHeight * (devicePixelRatio || 1);
+    gushCanvas.style.width = innerWidth + 'px';
+    gushCanvas.style.height = innerHeight + 'px';
+    gushCtx.setTransform(devicePixelRatio || 1, 0, 0, devicePixelRatio || 1, 0, 0);
+  }
+  function ensureGush(){
+    if (gushCanvas) return;
+    gushCanvas = document.createElement('canvas'); gushCanvas.id = 'bha-gush';
+    document.body.appendChild(gushCanvas);
+    gushCtx = gushCanvas.getContext('2d');
+    sizeGush(); addEventListener('resize', sizeGush);
   }
   function burst(){
     if (gushed) return; gushed = true;
     ensureGush();
-    var W = window.innerWidth, H = window.innerHeight;
-    gushParts = [];
+    var W = innerWidth, H = innerHeight; gushParts = [];
     for (var i = 0; i < 460; i++){
-      var a = -Math.PI / 2 + (Math.random() - 0.5) * 2.4;
+      var a = -Math.PI/2 + (Math.random()-0.5) * 2.4;
       var sp = 7 + Math.random() * 22;
-      gushParts.push({
-        x: W * (0.55 + Math.random() * 0.45), y: H * (0.36 + Math.random() * 0.22),
-        vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
-        life: 1, decay: 0.006 + Math.random() * 0.012,
-        r: 1.5 + Math.random() * (Math.random() > 0.85 ? 7 : 3.4),
-        c: Math.random() > 0.25 ? '246,196,83' : '197,250,57'
-      });
+      gushParts.push({ x: W*(0.55+Math.random()*0.45), y: H*(0.36+Math.random()*0.22),
+        vx: Math.cos(a)*sp, vy: Math.sin(a)*sp, life: 1, decay: 0.006+Math.random()*0.012,
+        r: 1.5 + Math.random() * (Math.random()>0.85 ? 7 : 3.4),
+        c: Math.random() > 0.25 ? '246,196,83' : '197,250,57' });
     }
     gushCanvas.style.opacity = '1';
     var t0 = performance.now();
     function frame(t){
       var dt = Math.min(32, t - t0); t0 = t;
-      gushCtx.clearRect(0, 0, W, H);
+      gushCtx.clearRect(0,0,W,H);
       var alive = 0;
-      for (var i = 0; i < gushParts.length; i++){
+      for (var i=0;i<gushParts.length;i++){
         var p = gushParts[i];
         if (p.life <= 0) continue;
         p.vy += 0.16; p.vx *= 0.995; p.vy *= 0.995;
-        p.x += p.vx * dt / 16; p.y += p.vy * dt / 16;
-        p.life -= p.decay * dt / 16;
+        p.x += p.vx*dt/16; p.y += p.vy*dt/16; p.life -= p.decay*dt/16;
         if (p.life <= 0) continue;
         alive++;
         gushCtx.beginPath();
-        gushCtx.fillStyle = 'rgba(' + p.c + ',' + Math.max(0, p.life).toFixed(2) + ')';
-        gushCtx.arc(p.x, p.y, p.r * (0.4 + p.life * 0.8), 0, 6.2832);
+        gushCtx.fillStyle = 'rgba(' + p.c + ',' + Math.max(0,p.life).toFixed(2) + ')';
+        gushCtx.arc(p.x, p.y, p.r*(0.4+p.life*0.8), 0, 6.2832);
         gushCtx.fill();
       }
       if (alive > 0) gushRAF = requestAnimationFrame(frame);
       else { gushCanvas.style.opacity = '0'; gushRAF = null; gushed = false; }
     }
-    cancelAnimationFrame(gushRAF);
-    gushRAF = requestAnimationFrame(frame);
+    cancelAnimationFrame(gushRAF); gushRAF = requestAnimationFrame(frame);
   }
 
-  // ---------- 构建 ----------
+  // ---------- 时间轴 ----------
   function buildTimeline(){
     var stage = document.createElement('div'); stage.className = 'bha-stage';
     var scroller = document.createElement('div'); scroller.className = 'bha-scroller';
     var rail = document.createElement('div'); rail.className = 'bha-rail';
     scroller.appendChild(rail); stage.appendChild(scroller);
 
-
     var items = collect();
     var byDate = {};
     items.forEach(function(it){ (byDate[it.date] = byDate[it.date] || []).push(it); });
 
-    // 逐日枚举：10.29 → 下一个周日（若已有更远数据则延到那天）
     var end = nextSunday();
-    var maxDate = items.reduce(function(m, it){ return it.date > m ? it.date : m; }, iso(nextSunday()));
+    var maxDate = items.reduce(function(m, it){ return it.date > m ? it.date : m; }, iso(end));
     var endStr = maxDate > iso(end) ? maxDate : iso(end);
-    var days = [];
-    var cur = new Date(START.getFullYear(), START.getMonth(), START.getDate());
-    var guard = 0;
-    while (iso(cur) <= endStr && guard++ < 400){
-      days.push(iso(cur));
-      cur.setDate(cur.getDate() + 1);
-    }
 
-    var PADL = 150, W_CARD = 300, W_EMPTY = 62, W_TAIL = 460;
-    var xs = [], cursor = PADL;
-    days.forEach(function(d){
-      xs.push(cursor);
-      var n = (byDate[d] || []).length;
-      cursor += n ? W_CARD : W_EMPTY;
-    });
-    var width = cursor + W_TAIL;
+    var days = [];
+    var cur = new Date(2026, 9, 29);
+    var guard = 0;
+    while (iso(cur) <= endStr && guard++ < 400){ days.push(iso(cur)); cur.setDate(cur.getDate()+1); }
+
+    var PADL = 170, GAP = 190, TAIL = 520, HEIGHT = 660, AXIS = 285;
     if (!isMobile()){
-      rail.style.width = width + 'px';
+      rail.style.width = (PADL + days.length * GAP + TAIL) + 'px';
       var axis = document.createElement('div'); axis.className = 'bha-axisline'; rail.appendChild(axis);
     }
+    var cardsCount = 0;
     days.forEach(function(d, i){
       var col = document.createElement('div'); col.className = 'bha-col';
-      if (!isMobile()) col.style.left = xs[i] + 'px';
-      var isSunday = new Date(d + 'T00:00:00').getDay() === 0;
-      var tick = document.createElement('div'); tick.className = 'bha-tick' + (isSunday ? ' major' : '');
+      var x = PADL + i * GAP;
+      if (!isMobile()) col.style.left = x + 'px';
+      var sunday = new Date(d + 'T00:00:00').getDay() === 0;
+      var tick = document.createElement('div'); tick.className = 'bha-tick' + (sunday ? ' major' : '');
       col.appendChild(tick);
       var lab = document.createElement('div'); lab.className = 'bha-lab';
-      lab.innerHTML = '<b>' + d.slice(5).replace('-', '.') + '</b> ' + (isSunday ? '周日' : '');
+      lab.innerHTML = '<b>' + d.slice(5).replace('-', '.') + '</b>' + (sunday ? ' 周日' : '');
       lab.addEventListener('click', function(){ openEditor(d); });
       col.appendChild(lab);
-      if (byDate[d] || isSunday){
+      if (byDate[d] || sunday){
         var node = document.createElement('button'); node.type = 'button'; node.className = 'bha-node';
         node.setAttribute('aria-label', d + ' 添加记录');
         node.addEventListener('click', function(){ openEditor(d); });
         col.appendChild(node);
       }
       if (byDate[d]){
-        var stack = document.createElement('div'); stack.className = 'stack';
-        byDate[d].forEach(function(it){ stack.appendChild(cardFor(it, d)); });
+        var stack = document.createElement('div');
+        stack.className = 'stack ' + (cardsCount % 2 ? 'down' : 'up');
+        byDate[d].forEach(function(it){ stack.appendChild(cardFor(it, d)); cardsCount++; });
         col.appendChild(stack);
       }
       rail.appendChild(col);
@@ -847,71 +854,75 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 
     if (!isMobile()){
       var endTag = document.createElement('div');
-      endTag.style.cssText = 'position:absolute;left:' + width + 'px;top:210px;transform:translateX(-100%);text-align:right;padding-right:46px;pointer-events:none;white-space:nowrap';
-      endTag.innerHTML = '<div style="font-family:"Arial Black",Impact,sans-serif;font-style:italic;color:#f6c453;font-size:38px;letter-spacing:-1px;line-height:1">TO BE CONTINUED</div>' +
-        '<div style="font-family:"Songti SC","SimSun",serif;font-size:15px;letter-spacing:8px;color:#c9a94e;margin-top:10px">未完待续</div>';
+      endTag.style.cssText = 'position:absolute;right:44px;top:150px;text-align:right;white-space:nowrap;pointer-events:none';
+      endTag.innerHTML = '<div style="font-family:\"Arial Black\",Impact,sans-serif;font-style:italic;color:#f6c453;font-size:38px;letter-spacing:-1px;line-height:1">TO BE CONTINUED</div>' +
+        '<div style="font-family:\"Songti SC\",\"SimSun\",serif;font-size:15px;letter-spacing:8px;color:#c9a94e;margin-top:10px">未完待续</div>';
       rail.appendChild(endTag);
+      scroller.addEventListener('scroll', function(){
+        if (scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 30) burst();
+      }, { passive: true });
     }
-
-    // 触发井喷：滚到末端
-    scroller.addEventListener('scroll', function(){
-      if (scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 30) burst();
-    }, { passive: true });
     return stage;
   }
 
   function cardFor(it, date){
     var el;
     if (it.kind === 'MATCH'){
-      el = document.createElement('div'); el.className = 'bha-match';
-      el.innerHTML = '<div class="score">' + it.score[0] + '<i>:</i>' + it.score[1] + '</div>' +
-        '<div class="m-meta"><b>' + it.title + '</b><span>' + it.body + '</span></div>' +
-        '<div class="tag">MATCH</div>';
+      var m = it.m;
+      el = document.createElement('button'); el.type = 'button'; el.className = 'bha-match';
+      el.setAttribute('aria-label', m.teamA + ' ' + m.a + ' 比 ' + m.b + ' ' + m.teamB);
+      el.innerHTML = '<span class="score">' + m.a + '<i>:</i>' + m.b + '</span>' +
+        '<span class="m-meta"><b>' + m.teamA + ' vs ' + m.teamB + '</b><span>' + (m.type || '') + ' · ' + (m.court || '') +
+        ' · ' + date.replace(/-/g, '.') + '</span></span><span class="tag">MATCH</span>';
+      el.addEventListener('click', function(){ openReader({ title: m.teamA + ' vs ' + m.teamB, body: (m.type||'') + ' · ' + (m.court||'') + (m.note ? '\n' + m.note : ''), date: date, kind: 'MATCH' }); });
       return el;
     }
     if (it.kind === 'AWARD'){
+      var a = it.award;
       el = document.createElement('button'); el.type = 'button'; el.className = 'bha-award';
-      el.innerHTML = '<div class="star">★</div><div class="meta"><b>' + it.title + '</b><span>' + it.body + '</span></div>';
-      el.addEventListener('click', function(){ openReader({ title: it.title, body: it.body, date: date, kind: 'AWARD' }); });
+      el.setAttribute('aria-label', a.name + ' ' + a.player + ' ' + date);
+      var img = medal(a, date).toDataURL('image/png');
+      el.innerHTML = '<img alt="' + a.name + ' 奖章" src="' + img + '">' +
+        '<span class="meta"><b>' + a.name + ' · ' + a.player + '</b><span>#' + a.num + ' · 第 ' + (it.week || '') + ' 周 · ' + a.en + '</span></span>';
+      el.addEventListener('click', function(){
+        var a2 = document.createElement('a');
+        a2.href = img; a2.download = '渤海湾竞技_' + a.name + '_' + a.player + '_' + date + '.png';
+        document.body.appendChild(a2); a2.click(); a2.remove();
+      });
       return el;
     }
     el = document.createElement('button'); el.type = 'button'; el.className = 'bha-news';
-    el.innerHTML = '<div class="n-top"><span>' + date.replace(/-/g, '.') + '</span><i>NEWS</i></div>' +
-      '<h4>' + it.title + '</h4><p>' + (it.body || '（没有正文，点开补一句）') + '</p>';
-    el.addEventListener('click', function(){ openReader({ title: it.title, body: it.body, date: date, kind: 'NEWS', local: it.local }); });
+    el.innerHTML = '<div class="n-top"><span>' + date.replace(/-/g,'.') + '</span><i>NEWS</i></div>' +
+      '<h4>' + it.e.title + '</h4><p>' + (it.e.body || '') + '</p>';
+    el.addEventListener('click', function(){ openReader({ title: it.e.title, body: it.e.body, date: date, kind: 'NEWS' }); });
     return el;
   }
 
-  // ---------- 阅读 ----------
   function openReader(o){
     var old = document.querySelector('.bha-modal'); if (old) old.remove();
     var wrap = document.createElement('div'); wrap.className = 'bha-modal';
-    wrap.innerHTML = '<div class="card" role="dialog" aria-modal="true">' +
-      '<h3>' + o.title + '</h3><div class="date">' + o.date + ' · ' + dayLabel(o.date) + ' · ' + o.kind + '</div>' +
-      '<div class="body">' + (o.body || '还没有正文。') + '</div>' +
+    wrap.innerHTML = '<div class="card" role="dialog" aria-modal="true"><h3>' + o.title + '</h3>' +
+      '<div class="date">' + o.date + ' · ' + dayLabel(o.date) + ' · ' + o.kind + '</div>' +
+      '<div class="body">' + (o.body || '（没有正文）') + '</div>' +
       '<div class="row"><button type="button" class="ghost" id="bha-r-close">关闭</button></div></div>';
     document.body.appendChild(wrap);
     wrap.addEventListener('click', function(e){ if (e.target === wrap) wrap.remove(); });
     wrap.querySelector('#bha-r-close').addEventListener('click', function(){ wrap.remove(); });
-    wrap.addEventListener('keydown', function(e){ if (e.key === 'Escape') wrap.remove(); });
   }
 
-  // ---------- 写信 ----------
   function openEditor(date){
     var old = document.querySelector('.bha-modal'); if (old) old.remove();
     var wrap = document.createElement('div'); wrap.className = 'bha-modal';
     wrap.innerHTML = '<div class="card" role="dialog" aria-modal="true"><h3>写一条新闻</h3>' +
-      '<div class="date">' + date + ' · ' + dayLabel(date) + '　存进去后会变成一张报纸卡</div>' +
+      '<div class="date">' + date + ' · ' + dayLabel(date) + '</div>' +
       '<label for="bha-e-title">标题</label><input id="bha-e-title" maxlength="40" placeholder="例：周三加练，雨里跑完 5 公里">' +
-      '<label for="bha-e-body">正文</label><textarea id="bha-e-body" maxlength="400" placeholder="像新闻一样写：谁、在哪、干了什么"></textarea>' +
-      '<div class="row"><button type="button" class="ghost" id="bha-e-cancel">取消</button>' +
-      '<button type="button" id="bha-e-save">登到这一天的报纸上</button></div>' +
-      '<div class="hint">先只存在你这台设备。要让全班看到：左下角信箱 →「导出我写的」→ 文件发我。</div></div>';
+      '<label for="bha-e-body">正文</label><textarea id="bha-e-body" maxlength="400"></textarea>' +
+      '<div class="row"><button type="button" class="ghost" id="bha-e-cancel">取消</button><button type="button" id="bha-e-save">登到这一天的报纸上</button></div>' +
+      '<div class="hint">先存在你这台设备。要发全班：点左下角「邮箱」→「导出我写的」→ 文件发我。</div></div>';
     document.body.appendChild(wrap);
     var input = wrap.querySelector('#bha-e-title');
     setTimeout(function(){ input.focus(); }, 30);
     wrap.addEventListener('click', function(e){ if (e.target === wrap) wrap.remove(); });
-    wrap.addEventListener('keydown', function(e){ if (e.key === 'Escape') wrap.remove(); });
     wrap.querySelector('#bha-e-cancel').addEventListener('click', function(){ wrap.remove(); });
     wrap.querySelector('#bha-e-save').addEventListener('click', function(){
       var title = input.value.trim(); if (!title){ input.focus(); return; }
@@ -921,36 +932,35 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
     });
   }
 
-  // ---------- 信箱（全站常驻） ----------
+  // ---------- 邮箱 ----------
   function mountMail(){
     if (document.getElementById('bha-mail')) return;
     var mail = document.createElement('button');
     mail.id = 'bha-mail'; mail.type = 'button';
-    mail.innerHTML = '<span class="ico" aria-hidden="true"></span>时间轴来信 <span class="badge">0</span>';
+    mail.innerHTML = '<span class="ico" aria-hidden="true"></span>邮箱 <span class="badge">0</span>';
     mail.addEventListener('click', openBox);
     document.body.appendChild(mail);
   }
   function refreshBadge(){
     var m = document.querySelector('#bha-mail .badge');
-    if (m) { var n = String(localEvents().length); if (m.textContent !== n) m.textContent = n; }
+    if (m){ var n = String(localEvents().length); if (m.textContent !== n) m.textContent = n; }
   }
   function openBox(){
     var box = document.getElementById('bha-box-box');
     if (!box){ box = document.createElement('div'); box.id = 'bha-box-box'; box.className = 'bha-box'; document.body.appendChild(box); }
     var mine = localEvents().slice().reverse();
-    box.innerHTML = '<header><span>时间轴来信</span><button type="button" aria-label="关闭">×</button></header>' +
-      '<div class="tools"><button type="button" id="bha-box-write" class="primary">写一条</button>' +
-      '<button type="button" id="bha-box-export">导出我写的</button></div>' +
-      (mine.length ? mine.map(function(e, i){
-        return '<div class="item" data-i="' + i + '"><b>' + e.title + '</b><span>' + e.date + ' · ' + dayLabel(e.date) + '</span>' +
+    box.innerHTML = '<header><span>邮箱</span><button type="button" aria-label="关闭">×</button></header>' +
+      '<div class="tools"><button type="button" id="bha-box-write" class="primary">写一条</button><button type="button" id="bha-box-export">导出我写的</button></div>' +
+      (mine.length ? mine.map(function(e){
+        return '<div class="item"><b>' + e.title + '</b><span>' + e.date + ' · ' + dayLabel(e.date) + '</span>' +
           (e.body ? '<p style="font-size:11px;line-height:1.6;margin:4px 0 0;color:#3d4238">' + e.body + '</p>' : '') + '</div>';
-      }).join('') : '<div class="empty">还没有你写的新闻。点「写一条」。</div>');
+      }).join('') : '<div class="empty">还没有你写的新闻。</div>');
     box.classList.add('on');
     box.querySelector('header button').addEventListener('click', function(){ box.classList.remove('on'); });
     box.querySelector('#bha-box-export').addEventListener('click', exportLocal);
     box.querySelector('#bha-box-write').addEventListener('click', function(){
       box.classList.remove('on');
-      openEditor(new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10));
+      openEditor(new Date(Date.now() + 8*3600e3).toISOString().slice(0,10));
     });
   }
   function exportLocal(){
