@@ -550,6 +550,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 
 
 
+
 <!-- bha-honours : 时间轴 -->
 <style id="bha-honours-css">
 .bha-hon-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:0 0 18px}
@@ -689,10 +690,11 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
   function dayLabel(d){ return WD[new Date(d + 'T00:00:00+08:00').getDay()]; }
   function isMobile(){ return window.matchMedia('(max-width:720px)').matches; }
   function iso(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
-  function lastSunday(){ // 最近的周日（含今天）
+  function nextSunday(){ // 本周日（今天就是周日则今天），轴一直铺到这个周日
     var now = new Date();
     var d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    d.setDate(d.getDate() - d.getDay());
+    var add = (7 - d.getDay()) % 7;
+    d.setDate(d.getDate() + add);
     return d;
   }
 
@@ -796,8 +798,8 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
     items.forEach(function(it){ (byDate[it.date] = byDate[it.date] || []).push(it); });
 
     // 逐日枚举：10.29 → 下一个周日（若已有更远数据则延到那天）
-    var end = lastSunday();
-    var maxDate = items.reduce(function(m, it){ return it.date > m ? it.date : m; }, iso(lastSunday()));
+    var end = nextSunday();
+    var maxDate = items.reduce(function(m, it){ return it.date > m ? it.date : m; }, iso(nextSunday()));
     var endStr = maxDate > iso(end) ? maxDate : iso(end);
     var days = [];
     var cur = new Date(START.getFullYear(), START.getMonth(), START.getDate());
